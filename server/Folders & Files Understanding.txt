@@ -1,0 +1,13 @@
+Config/	Application or database configuration files.
+Controllers/	Business logic for routes.
+Helpers/	Utility functions for reusable logic.
+Middlewares/	Middleware functions for validation, authentication, etc.
+Models/	Database models and schemas.
+Routes/	Define API endpoints and their controller mappings.
+.env	Stores sensitive or environment-specific variables.
+index.js	Entry point of the backend application.
+
+Services/ (Optional)
+
+Use this folder to define business logic that doesn’t directly belong in the controller 
+but involves external systems (e.g., interacting with third-party APIs, payment gateways).
