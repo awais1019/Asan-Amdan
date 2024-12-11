@@ -4,7 +4,6 @@ import Navbar from './components/Navbar.jsx'; // Assuming Navbar.jsx is in a com
 const App = () => {
   return (
     <>
-      <Navbar />
       <h1>Sab ko milega Rozagr :) </h1>
     </>
   );
