@@ -9,7 +9,7 @@ const HomePage = () => {
   const handleGigClick = (gig) => {
     alert(`${gig.name} - ${gig.profession}`);
   };
-
+  
   return (
     <>
       {/* Slider */}
