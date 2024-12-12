@@ -1,15 +1,23 @@
 .category-search-container {
     width: 100%;
-    max-width: 500px; /* Reduced max-width for a more compact appearance */
+    max-width: 600px;
     margin: 20px auto;
     padding: 10px;
     background-color: #f8f9fa;
     border-radius: 8px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    /* Add !important for debugging */
+}
+
+.category-dropdown-container {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    justify-content: space-between;
 }
 
 .category-dropdown {
-    width: 100%;
+    width: 75%;
     padding: 12px;
     font-size: 16px;
     border-radius: 5px;
@@ -17,13 +25,79 @@
     background-color: #fff;
     cursor: pointer;
     transition: border-color 0.3s ease;
+    /* Make sure this is not overridden by any global styles */
 }
 
 .category-dropdown:focus {
     border-color: #007bff;
 }
 
-.category-dropdown option {
+.toggle-container {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.toggle-switch input {
+    display: none;
+}
+
+.toggle-slider {
+    position: relative;
+    width: 60px; /* Increased width for a fatter toggle */
+    height: 35px; /* Increased height for a fatter toggle */
+    background: linear-gradient(90deg, #ff7b00, #ff4d00); /* Gradient for a colorful toggle */
+    border-radius: 30px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+    cursor: pointer;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.toggle-slider:before {
+    content: '';
+    position: absolute;
+    left: 5px; /* Adjusted for better centering */
+    top: 5px;
+    width: 25px; /* Bigger circle */
+    height: 25px; /* Bigger circle */
+    background-color: rgb(0, 255, 76);
+    border-radius: 50%;
+    transition: transform 0.3s ease, background-color 0.3s ease;
+}
+
+.toggle-switch input:checked + .toggle-slider {
+    background: linear-gradient(90deg, #007bff, #0056b3); /* Blue gradient when toggled */
+    box-shadow: 0 4px 10px rgba(0, 123, 255, 0.4); /* Light blue shadow when toggled */
+}
+
+.toggle-switch input:checked + .toggle-slider:before {
+    transform: translateX(26px); /* Moves the circle more */
+    background-color: #fff; /* Keeps the circle white when toggled */
+}
+
+.toggle-label {
+    font-size: 16px;
+    font-weight: bold;
+    color: #333;
+    transition: color 0.3s ease;
+    background-color: rgb(255, 255, 255);
+}
+
+.toggle-switch input:checked + .toggle-slider + .toggle-label {
+    color: #007bff; /* Change label color to blue when toggled */
+}
+
+/* Additional Styling for search input */
+.search-input {
+    width: 100%;
     padding: 10px;
     font-size: 16px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    background-color: #fff;
+    transition: border-color 0.3s ease;
+}
+
+.search-input:focus {
+    border-color: #007bff;
 }
