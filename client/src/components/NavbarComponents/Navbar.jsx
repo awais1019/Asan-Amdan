@@ -1,7 +1,7 @@
 import React from 'react';
-import NavbarLink from './NavbarComponents/NavbarLink'; // A reusable link component
-import NavbarButton from './NavbarComponents/NavbarButton'; // A reusable button component
-import '../Styles/Navbar.css';
+import NavbarLink from './NavbarLink'; // A reusable link component
+import NavbarButton from './NavbarButton'; // A reusable button component
+import '../styles/Navbar.css';
 
 const Navbar = ({ logoText, logoHref, links, buttons }) => {
     return (

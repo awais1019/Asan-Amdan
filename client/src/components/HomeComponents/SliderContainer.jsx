@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import SlideItem from './SlideItem';
 import SliderNavButton from './SliderNavButton';
-import "../../Styles/Slider.css";
+import "../styles/Slider.css";
 
 
 const SliderContainer = ({ slides }) => {

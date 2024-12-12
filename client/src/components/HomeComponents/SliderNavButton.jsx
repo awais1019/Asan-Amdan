@@ -1,5 +1,5 @@
 import React from 'react';
-import "../../Styles/Slider.css";
+import "../styles/Slider.css";
 const SliderNavButton = ({ direction, onClick }) => {
   return (
     <button
