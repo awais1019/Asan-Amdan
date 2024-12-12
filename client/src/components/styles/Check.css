@@ -1,0 +1,11 @@
+/* q: write css code */
+.Check {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  font-size: 20px;
+  font-weight: bold;
+  color: #ff0000;
+}
