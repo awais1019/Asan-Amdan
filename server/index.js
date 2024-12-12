@@ -46,8 +46,8 @@ app.use("/api/v1/gig",gigRoutes)
 
 // Setting Server
 app.get('/',(req,res)=>{
-    res.send("Running Server");
+    res.send("Server is Running :)");
 })
 app.listen(port,()=>{
-    console.log(`Server is running on port ${port}`);
+    console.log(`Server is running on port http://localhost:${port}`);
 })
