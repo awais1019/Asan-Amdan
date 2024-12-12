@@ -1,5 +1,5 @@
 import React from 'react';
-import '../styles/Slider.css';
+import "../../Styles/Slider.css";
 
 const SlideItem = ({ imageUrl, title, description, isActive }) => {
   return (
