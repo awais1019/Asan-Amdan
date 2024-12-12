@@ -65,6 +65,8 @@
     cursor: pointer;
     font-weight: bold;
     transition: all 0.3s ease;
+    text-decoration: none;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif
 }
 
 .btn-primary {
@@ -86,18 +88,5 @@
 
 .btn-success:hover {
     background-color: #218838;
-    transform: translateY(-2px);
-}
-.btn-sign-up {
-    font-size: smaller;
-    background-color: #ff00f2;
-    color: #ffffff;
-    box-shadow: 0 2px 4px rgba(40, 167, 69, 0.2);
-    text-decoration: none;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif
-}
-
-.btn-sign-up:hover {
-    background-color: #ff2fd2;
     transform: translateY(-2px);
 }

@@ -5,8 +5,7 @@ export const links = [
   ];
   
   export const buttons = [
-    { text: "Sign In", className: "btn-primary", onClick: () => console.log("Sign In clicked") },
-    { text: "Join", className: "btn-success", onClick: () => console.log("Join clicked") },
-    { text: "Sign Up", className: "btn-sign-up", to: "/signup" },
+    { text: "Sign In", className: "btn-primary",to: "/signin", onClick: () => console.log("Sign In clicked") },
+    { text: "Join", className: "btn-success", to: "/signup", onClick: () => console.log("Join clicked") },
   ];
   
