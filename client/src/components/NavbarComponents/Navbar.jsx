@@ -17,14 +17,18 @@ const Navbar = ({ logoText, logoHref, links, buttons }) => {
                 </ul>
                 <div className="nav-buttons">
                     {buttons.map((button, index) => (
-                        <NavbarButton 
+                        <NavbarButton
                             key={index} 
                             text={button.text} 
                             onClick={button.onClick} 
-                            className={button.className} 
+                            className={button.className}
+                            to = {button.to}
                         />
                     ))}
+                    
                 </div>
+                
+
             </div>
         </nav>
     );
