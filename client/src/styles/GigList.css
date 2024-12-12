@@ -1,0 +1,22 @@
+/* Styling the grid layout */
+.gig-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); /* Adjusts to fit 3 cards per row */
+    gap: 0px; /* Space between cards */
+
+    justify-items: flex-start; /* Center align cards */
+  }
+  
+  /* Optional styling for cards */
+  .gig-card {
+    width: 300px; /* Fixed width for cards */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Add a subtle shadow */
+    border-radius: 8px; /* Rounded corners */
+    transition: transform 0.2s, box-shadow 0.2s; /* Smooth hover effects */
+  }
+  
+  .gig-card:hover {
+    transform: translateY(-5px); /* Slight lift on hover */
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15); /* Enhance shadow on hover */
+  }
+  
