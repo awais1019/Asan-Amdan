@@ -1,6 +1,6 @@
 import React from 'react';
-import SliderContainer from '../components/HomeComponents/SliderContainer';
-import GigList from '../components/GigComponents/GigList';
+import SliderContainer from '../Components/HomeComponents/SliderContainer';
+import GigList from '../Components/GigComponents/GigList';
 import { gigs } from '../data/gigs';
 import { slides } from '../data/slides';
 
@@ -9,7 +9,7 @@ const HomePage = () => {
   const handleGigClick = (gig) => {
     alert(`${gig.name} - ${gig.profession}`);
   };
-
+  
   return (
     <>
       {/* Slider */}
