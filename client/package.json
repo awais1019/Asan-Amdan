@@ -6,6 +6,7 @@
     "cra-template": "1.2.0",
     "postcss": "^8.4.49",
     "react": "^19.0.0",
+    "react-bootstrap": "^2.10.6",
     "react-dom": "^19.0.0",
     "react-scripts": "^5.0.1",
     "resolve-url-loader": "^5.0.0",
