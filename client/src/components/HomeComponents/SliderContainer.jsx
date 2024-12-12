@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import SlideItem from './SlideItem';
 import SliderNavButton from './SliderNavButton';
-import '../styles/Slider.css';
+import "../styles/Slider.css";
+
 
 const SliderContainer = ({ slides }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
