@@ -1,20 +1,17 @@
+
 import React from 'react';
 import Navbar from './Components/Navbar';
 import SliderContainer from './Components/HomeComponents/SliderContainer';
 import { Route, Routes } from 'react-router-dom';
+import { links } from "./data/links";
+import { buttons } from "./data/links";
+import { slides } from "./data/slides";
+import { gigs } from "./data/gigs";
 import HomePage from './Pages/HomePage';
-
 const App = () => {
-    const links = [
-        { href: '/provide-service', text: 'Provide Service' },
-        { href: '/order-service', text: 'Order Service' },
-        { href: '/be-a-manager', text: 'Be a Manager' },
-    ];
-
-    const buttons = [
-        { text: 'Sign In', className: 'btn-primary', onClick: () => console.log('Sign In clicked') },
-        { text: 'Join', className: 'btn-success', onClick: () => console.log('Join clicked') },
-    ];
+  const handleGigClick = (gig) => {
+    alert(gig.name + " - " + gig.profession); // Handle the click here
+  };
 
 
     return (
@@ -25,6 +22,17 @@ const App = () => {
                 links={links} 
                 buttons={buttons} 
             />
+                    {/* Slider */}
+      <SliderContainer slides={slides} />
+
+      {/* Gigs Section */}
+      <section className="gigs-section">
+        <div className="container">
+          <h1 className="section-title">Available Gigs</h1>
+          <GigList gigs={gigs} onGigClick={handleGigClick} />
+        </div>
+      </section>
+    </>
 
             <Routes>
                 <Route path="/" element={<HomePage />} />
@@ -34,6 +42,7 @@ const App = () => {
 
         </>
     );
+
 };
 
 export default App;
