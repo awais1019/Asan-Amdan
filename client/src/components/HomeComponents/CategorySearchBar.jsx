@@ -3,35 +3,39 @@ import axios from 'axios';
 import "../styles/Search/CategorySearchBar.css";
 
 const CategorySearchBar = () => {
-    const [categories, setCategories] = useState([]);
+    const [categories, setCategories] = useState({ technical: [], nonTechnical: [] });
     const [selectedCategory, setSelectedCategory] = useState('');
     const [isTechnical, setIsTechnical] = useState(true); // Default to technical
 
-    // Mock categories for fallback (split into technical and non-technical)
-    const mockCategories = {
-        technical: [
-            { _id: '1', name: 'Web Development' },
-            { _id: '2', name: 'Network Engineering' },
-            { _id: '3', name: 'Software Development' },
-        ],
-        nonTechnical: [
-            { _id: '4', name: 'Plumbing' },
-            { _id: '5', name: 'Electrical Services' },
-            { _id: '6', name: 'Carpentry' },
-        ]
-    };
-
-    // Fetch categories from the backend API or fallback to mock categories
+    // Fetch categories from the backend API
     useEffect(() => {
         const fetchCategories = async () => {
             try {
                 const response = await axios.get('http://localhost:4000/api/v1/categories');
                 if (response.data.success) {
-                    setCategories(response.data.data);  // Set the categories from the API
+                    const allCategories = response.data.data;
+
+                    // Separate categories into technical and non-technical
+                    const technical = allCategories.filter(category => category.type === 'technical');
+                    const nonTechnical = allCategories.filter(category => category.type === 'non-technical');
+
+                    setCategories({ technical, nonTechnical });
                 }
             } catch (error) {
                 console.error('Error fetching categories:', error);
-                setCategories(mockCategories.technical);  // Default to technical if error occurs
+                // Fallback to mock data if API fails
+                setCategories({
+                    technical: [
+                        { _id: '1', name: 'Web Development' },
+                        { _id: '2', name: 'Network Engineering' },
+                        { _id: '3', name: 'Software Development' },
+                    ],
+                    nonTechnical: [
+                        { _id: '4', name: 'Plumbing' },
+                        { _id: '5', name: 'Electrical Services' },
+                        { _id: '6', name: 'Carpentry' },
+                    ],
+                });
             }
         };
 
@@ -53,7 +57,7 @@ const CategorySearchBar = () => {
     };
 
     // Get the categories based on the toggle state
-    const filteredCategories = isTechnical ? mockCategories.technical : mockCategories.nonTechnical;
+    const filteredCategories = isTechnical ? categories.technical : categories.nonTechnical;
 
     return (
         <div className="category-search-container">
