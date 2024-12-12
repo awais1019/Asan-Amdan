@@ -3,6 +3,7 @@ import SliderContainer from '../components/HomeComponents/SliderContainer';
 import GigList from '../components/GigComponents/GigList';
 import { gigs } from '../data/gigs';
 import { slides } from '../data/slides';
+import CategorySearchBar from '../components/HomeComponents/CategorySearchBar';
 
 const HomePage = () => {
 
@@ -14,7 +15,7 @@ const HomePage = () => {
     <>
       {/* Slider */}
       <SliderContainer slides={slides} />
-
+      <CategorySearchBar />
       {/* Gigs Section */}
       <section className="gigs-section">
         <div className="container">

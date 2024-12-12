@@ -1,0 +1,29 @@
+.category-search-container {
+    width: 100%;
+    max-width: 500px; /* Reduced max-width for a more compact appearance */
+    margin: 20px auto;
+    padding: 10px;
+    background-color: #f8f9fa;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.category-dropdown {
+    width: 100%;
+    padding: 12px;
+    font-size: 16px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    background-color: #fff;
+    cursor: pointer;
+    transition: border-color 0.3s ease;
+}
+
+.category-dropdown:focus {
+    border-color: #007bff;
+}
+
+.category-dropdown option {
+    padding: 10px;
+    font-size: 16px;
+}
