@@ -60,7 +60,7 @@
     top: 5px;
     width: 25px; /* Bigger circle */
     height: 25px; /* Bigger circle */
-    background-color: rgb(0, 255, 76);
+    background-color: rgb(188, 188, 188);
     border-radius: 50%;
     transition: transform 0.3s ease, background-color 0.3s ease;
 }
@@ -72,11 +72,12 @@
 
 .toggle-switch input:checked + .toggle-slider:before {
     transform: translateX(26px); /* Moves the circle more */
-    background-color: #fff; /* Keeps the circle white when toggled */
+    background-color: #00f7ff; /* Keeps the circle white when toggled */
 }
 
 .toggle-label {
     font-size: 16px;
+    margin-bottom: 9%;
     font-weight: bold;
     color: #333;
     transition: color 0.3s ease;
