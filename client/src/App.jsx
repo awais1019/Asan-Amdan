@@ -6,6 +6,7 @@ import { links } from './data/links';
 import { buttons } from './data/links';
 import SignUp from './components/AuthenticationComponents/UserSignUp';
 import SignIn from './components/AuthenticationComponents/UserSignIn';
+import CreateGig from './components/GigComponents/MakeGig';
 
 const App = () => {
   return (
@@ -23,6 +24,7 @@ const App = () => {
         <Route path="/" element={<HomePage />} />
         <Route path="/SignUp" element={<SignUp />} />
         <Route path="/SignIn" element={<SignIn />} />
+        <Route path="/provide-service" element={<CreateGig />} />
       </Routes>
     </>
   );

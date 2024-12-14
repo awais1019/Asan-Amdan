@@ -1,0 +1,136 @@
+/* General Styles */
+body {
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f9;
+}
+
+/* Container */
+.create-gig-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    padding: 20px;
+    background: linear-gradient(135deg, #dcd6d6, #e4e1e1);
+    color: #333;
+}
+
+/* Title */
+.create-gig-container h2 {
+    font-size: 2rem;
+    color: #fff;
+    margin-bottom: 20px;
+    text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.2);
+}
+
+/* Form */
+.create-gig-form {
+    background: #ffffff;
+    padding: 20px 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    width: 100%;
+    max-width: 500px;
+}
+
+.create-gig-form input,
+.create-gig-form select,
+.create-gig-form textarea,
+.create-gig-form button {
+    width: 100%;
+    padding: 12px;
+    margin: 10px 0;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 1rem;
+    outline: none;
+    transition: all 0.3s ease;
+}
+
+.create-gig-form input:focus,
+.create-gig-form textarea:focus,
+.create-gig-form select:focus {
+    border-color: #fd7e14;
+    box-shadow: 0 0 5px rgba(253, 126, 20, 0.5);
+}
+
+.create-gig-form textarea {
+    resize: none;
+}
+
+/* Dropdown */
+.create-gig-form select {
+    background-color: #fff;
+    cursor: pointer;
+}
+
+/* Button */
+.create-gig-form button {
+    background: #fd7e14;
+    color: white;
+    font-weight: bold;
+    border: none;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.create-gig-form button:hover {
+    background: #ff9d3f;
+    box-shadow: 0 4px 10px rgba(253, 126, 20, 0.3);
+}
+
+/* Error & Success Messages */
+.error {
+    color: #d9534f;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.success {
+    color: #28a745;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+/* Image Upload */
+.image-upload {
+    margin-top: 10px;
+    text-align: center;
+}
+
+.image-upload label {
+    font-weight: bold;
+    color: #555;
+}
+
+.image-upload input {
+    margin-top: 10px;
+}
+
+.image-preview {
+    margin-top: 10px;
+    max-width: 100%;
+    height: auto;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Media Queries */
+@media (max-width: 600px) {
+    .create-gig-form {
+        padding: 15px 20px;
+    }
+
+    .create-gig-container h2 {
+        font-size: 1.5rem;
+    }
+
+    .create-gig-form input,
+    .create-gig-form textarea,
+    .create-gig-form button {
+        font-size: 0.9rem;
+    }
+} 
