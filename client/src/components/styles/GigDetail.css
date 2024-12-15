@@ -1,0 +1,153 @@
+/* General container for the gig detail page */
+.gig-detail-container {
+    padding: 40px 20px;
+    background-color: #f9f9f9;
+    font-family: 'Arial', sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+  }
+  
+  /* Main gig detail container */
+  .gig-detail {
+    display: grid;
+    grid-template-columns: 1fr 2fr; /* Left: Image, Right: Info */
+    max-width: 1200px;
+    background-color: #ffffff;
+    border-radius: 15px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    padding: 20px;
+    gap: 20px;
+  }
+  
+  /* Container for the gig image */
+  .gig-detail__image-container {
+    width: 100%;
+    height: 100%;
+    border-radius: 10px;
+    overflow: hidden;
+  }
+  
+  .gig-detail__image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 10px;
+  }
+  
+  /* Info section for gig details */
+  .gig-detail__info {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+  }
+  
+  /* Gig name styling */
+  .gig-detail__name {
+    font-size: 2.2rem;
+    font-weight: bold;
+    color: #333;
+    margin: 0;
+    padding-bottom: 5px;
+    border-bottom: 2px solid #fd7e14;
+  }
+  
+  /* Profession styling */
+  .gig-detail__profession {
+    font-size: 1.4rem;
+    font-weight: 600;
+    color: #fd7e14;
+  }
+  
+  /* Gig description text */
+  .gig-detail__info p {
+    font-size: 1.1rem;
+    color: #555;
+    line-height: 1.5;
+    margin: 10px 0;
+  }
+  
+  /* Rating section */
+  .gig-detail__rating {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 1.1rem;
+    font-weight: bold;
+    color: #333;
+    margin-top: 20px;
+  }
+  
+  /* Reviews Section */
+  .reviews {
+    margin-top: 30px;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 20px;
+    flex-wrap: wrap;
+  }
+  
+  .review-box {
+    background-color: #f1f1f1;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  }
+  
+  .review-box p {
+    font-size: 1rem;
+    color: #555;
+    line-height: 1.5;
+  }
+  
+  .review-box strong {
+    color: #fd7e14;
+  }
+  
+  /* Button styling */
+  .gig-detail__button {
+    padding: 15px 25px;
+    background-color: #fd7e14;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 1.2rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    align-self: center;
+    margin-top: 30px;
+  }
+  
+  .gig-detail__button:hover {
+    background-color: #e06b12;
+  }
+  
+  /* Responsive Design */
+  @media (max-width: 768px) {
+    .gig-detail {
+      grid-template-columns: 1fr; /* Stack image and info on smaller screens */
+    }
+  
+    .reviews {
+      grid-template-columns: 1fr 1fr; /* Two columns for reviews */
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .gig-detail__name {
+      font-size: 1.8rem;
+    }
+  
+    .gig-detail__profession {
+      font-size: 1.2rem;
+    }
+  
+    .reviews {
+      grid-template-columns: 1fr; /* One column for reviews */
+    }
+  }
+  
