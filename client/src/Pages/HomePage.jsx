@@ -1,16 +1,20 @@
-import React from 'react';
-import SliderContainer from '../components/HomeComponents/SliderContainer';
-import GigList from '../components/GigComponents/GigList';
-import { gigs } from '../data/gigs';
-import { slides } from '../data/slides';
-import CategorySearchBar from '../components/HomeComponents/CategorySearchBar';
+// HomePage.jsx
+import React from "react";
+import { useNavigate } from "react-router-dom"; // Import useNavigate hook
+import SliderContainer from "../components/HomeComponents/SliderContainer";
+import GigList from "../components/GigComponents/GigList";
+import { gigs } from "../data/gigs";
+import { slides } from "../data/slides";
+import CategorySearchBar from "../components/HomeComponents/CategorySearchBar";
 
 const HomePage = () => {
+  const navigate = useNavigate(); // Initialize navigate hook
 
   const handleGigClick = (gig) => {
-    alert(`${gig.name} - ${gig.profession}`);
+    // Navigate to the GigDetail page, passing the gig's id as a parameter
+    navigate(`/gig/${gig.id}`);
   };
-  
+
   return (
     <>
       {/* Slider */}

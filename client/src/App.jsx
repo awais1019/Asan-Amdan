@@ -7,6 +7,7 @@ import { buttons } from './data/links';
 import SignUp from './components/AuthenticationComponents/UserSignUp';
 import SignIn from './components/AuthenticationComponents/UserSignIn';
 import CreateGig from './components/GigComponents/MakeGig';
+import GigDetail from './components/GigComponents/GigDetails';
 
 const App = () => {
   return (
@@ -19,12 +20,12 @@ const App = () => {
         buttons={buttons} 
       />
 
-   
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/SignUp" element={<SignUp />} />
         <Route path="/SignIn" element={<SignIn />} />
         <Route path="/provide-service" element={<CreateGig />} />
+        <Route path="/gig/:id" element={<GigDetail />} />
       </Routes>
     </>
   );
