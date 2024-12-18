@@ -8,6 +8,7 @@ const app = express();
 import authRoutes from "./Routes/AuthRoutes/userRoutes.js";
 import serviceProviderRoutes from "./Routes/AuthRoutes/serviceProviderRoutes.js";
 import gigRoutes from "./Routes/GigRoutes/gigRoutes.js"
+import categoriesRoutes from "./Routes/CategoryRoutes/categoriesRoutes.js"
 
 
 // importing db connection function
@@ -41,6 +42,8 @@ const corsConfig={
 app.use("/api/v1/auth",authRoutes);
 app.use("/api/v1/auth",serviceProviderRoutes);
 app.use("/api/v1/gig",gigRoutes)
+app.use("/api/v1/categories",categoriesRoutes);
+
 
 
 

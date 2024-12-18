@@ -31,10 +31,19 @@ const serviceProviderSchema = new mongoose.Schema({
     type: String,
     required: false, 
   },
+  categoryId:{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Categories",
+    required: true,
+  },
   location: {
     type: String,
     default: null, 
     trim: true,
+  },
+  isTechnical:{
+    type:Boolean,
+    required:true,
   },
   ordersCompleted: { type: Number, default: 0 }, 
   overallEarnings: { type: Number, default: 0 }, 

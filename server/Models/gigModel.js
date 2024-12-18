@@ -48,7 +48,7 @@ const gigSchema = mongoose.Schema(
             type: String,
             default: null,
         },
-        category: {
+        categoryId: {
             type: mongoose.Schema.Types.ObjectId,
             ref: "Categories",
             required: true,
@@ -58,16 +58,16 @@ const gigSchema = mongoose.Schema(
             default: "pending",
             //   enum: ["pending", "approved", "rejected"], 
         },
-        serviceProviderId:{
+        serviceProviderId: {
             type: mongoose.Schema.Types.ObjectId,
             ref: "User",
             required: true,
-        }
-    },
-    {
-        timestamps: true,
-    }
-);
+        },
+        isTechnical: {
+            type: Boolean,
+            required: true
+        },
+    }, { timestamps: true, });
 
 const Gig = mongoose.model("Gig", gigSchema);
 export default Gig;
