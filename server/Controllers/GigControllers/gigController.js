@@ -1,14 +1,54 @@
 import Gig from "../../Models/gigModel.js";
+import cloudinary from "../../util/cloudinary.js";
 
 export const createGigController = async (req, res) => {
   try {
-    const { title, description, experience, price, availabilityHours, location, image, video, document, category } = req.body;
-    const { serviceProviderId } = req.params; 
+    const {
+      title,
+      description,
+      experience,
+      price,
+      availabilityHours,
+      location,
+      image, // This should be a base64 string or image URL
+      video, 
+      document, 
+      category 
+    } = req.body;
+    const { serviceProviderId } = req.params;
 
-    if(!title || !description || !experience || !price || !availabilityHours ||  !image || !category || !serviceProviderId) {
-        return res.status(400).json({ success: false, msg: "All fields are required" });
+    if (
+      !title ||
+      !description ||
+      !experience ||
+      !price ||
+      !availabilityHours ||
+      !image ||
+      !category ||
+      !serviceProviderId
+    ) {
+      return res.status(400).json({ success: false, msg: "All fields are required" });
     }
-   
+
+    // Upload the image to Cloudinary
+    let uploadedImage;
+    if (image) {
+      try {
+        const result = await cloudinary.uploader.upload(image, {
+          folder: "gigs/images", // Specify folder in Cloudinary
+        });
+        uploadedImage = {
+          public_id: result.public_id,
+          url: result.secure_url,
+        };
+      } catch (uploadError) {
+        console.error("Image upload failed:", uploadError);
+        return res.status(500).json({
+          success: false,
+          msg: "Image upload failed",
+        });
+      }
+    }
 
     // Create a new Gig document
     const newGig = new Gig({
@@ -18,25 +58,25 @@ export const createGigController = async (req, res) => {
       price,
       availabilityHours,
       location,
-      image,
+      image: uploadedImage, // Store the Cloudinary image data
       video,
       document,
       category,
-      serviceProviderId: serviceProviderId, 
+      serviceProviderId,
     });
 
     // Save the new Gig to the database
     const savedGig = await newGig.save();
 
     res.status(201).json({
-        success:true,
+      success: true,
       msg: "Gig created successfully",
       gig: savedGig,
     });
   } catch (error) {
-    console.error("error while creating gig",error);
+    console.error("Error while creating gig:", error);
     res.status(500).json({
-        success:false,
+      success: false,
       msg: "Server error. Could not create gig.",
     });
   }
