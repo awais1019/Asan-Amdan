@@ -7,7 +7,10 @@ export const serviceProviderRegisterController = async (req, res) => {
         const { email, password, firstName, lastName, username, phoneNumber, cnicPicture, location } = req.body;
 
         if (!email || !password || !firstName || !lastName || !username || !phoneNumber || !cnicPicture) {
-            return res.status(400).json({ success: false, message: "All fields are required." });
+            console.log("Incoming request body:", req.body);
+            console.log("I am in backend")
+            return res.status(400).json({ success: false, message: "Backend Validation , All fields are required" });
+            
         }
 
         const existingProvider = await serviceProvider.findOne({

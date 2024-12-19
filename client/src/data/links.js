@@ -7,5 +7,6 @@ export const links = [
   export const buttons = [
     { text: "Sign In", className: "btn-primary",to: "/signin", onClick: () => console.log("Sign In clicked") },
     { text: "Join", className: "btn-success", to: "/signup", onClick: () => console.log("Join clicked") },
+    { text: "Give Services", className: "btn-warning", to: "/service-provider-sign-up", onClick: () => console.log("Give Services clicked") },
   ];
   

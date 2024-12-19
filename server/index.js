@@ -15,8 +15,8 @@ import categoriesRoutes from "./Routes/CategoryRoutes/categoriesRoutes.js"
 import { connectDB } from "./Config/connectDB.js";
 
 //converting json data to js object form 
-app.use(express.json());
-
+app.use(express.json());// For parsing application/json
+app.use(express.urlencoded({ extended: true })); 
 // configuring env file
 dotenv.config();
 const port=process.env.PORT;
