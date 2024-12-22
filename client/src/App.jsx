@@ -6,11 +6,12 @@ import { links } from './data/links';
 import { buttons } from './data/links';
 import SignUp from './components/AuthenticationComponents/UserSignUp';
 import SignIn from './components/AuthenticationComponents/UserSignIn';
-import CreateGig from './components/GigComponents/MakeGig';
-import GigDetail from './components/GigComponents/GigDetails';
+// import CreateGig from './components/GigComponents/MakeGig';
+// import GigDetail from './components/GigComponents/GigDetails';
 import ServiceProviderForm from './components/AuthenticationComponents/ServiceProviderSignUp';
 import AdminDashboard from './components/Dashboards/AdminDashboard';
 import ServiceProviderDashboard from './components/Dashboards/ServiceProviderDashboard';
+import CreateGig from './components/ServiceProvider/CreateGig';
 const App = () => {
   return (
     <>
@@ -26,10 +27,11 @@ const App = () => {
         <Route path="/" element={<HomePage />} />
         <Route path="/SignUp" element={<SignUp />} />
         <Route path="/SignIn" element={<SignIn />} />
-        <Route path="/gig/:id" element={<GigDetail />} />
+        {/* <Route path="/gig/:id" element={<GigDetail />} /> */}
         <Route path="/provide-service" element={<ServiceProviderForm />} />
         <Route path="/admin-dashboard" element={<AdminDashboard />} />
         <Route path="/service-provider-dashboard" element={<ServiceProviderDashboard />} />
+        <Route path="/Gig/addGig" element={<CreateGig/>} />
 
       </Routes>
     </>

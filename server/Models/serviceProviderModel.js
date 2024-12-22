@@ -29,7 +29,7 @@ const serviceProviderSchema = new mongoose.Schema({
   },
   cnicPicture: {
     type: String,
-    required: false, 
+    required: true,
   },
   // categoryId:{
   //   type: mongoose.Schema.Types.ObjectId,

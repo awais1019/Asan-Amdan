@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import ManageUsers from "../ManagementComponents/ManageUsers";
-import ManageServiceProviders from "../ManagementComponents/ManageServiceProviders";
+import ManageUsers from "../Admin/ManageUsers.jsx";
+import ManageServiceProviders from "../Admin/ManageServiceProviders.jsx";
 import "../styles/Dashboards/AdminDashboard.css";
-import ManageGigs from "../ManagementComponents/ManageGigs";
+import ManageGigs from "../Admin/AdminManageGigs.jsx";
 import CategoryForm from "../Category/CategoryForm.jsx";
 
 

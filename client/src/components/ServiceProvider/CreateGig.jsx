@@ -4,12 +4,14 @@ import "../styles/CreateGig/MakeGig.css";
 
 const CreateGig = () => {
   const [gigData, setGigData] = useState({
-    profession: "",
-    experience: "",
+    title: "",
     description: "",
-    rate: "",
+    experience: "",
+    price: "",
+    availabilityHours: "",
     location: "",
     category: "",
+    isTechnical: false,
     image: null,
   });
 
@@ -27,6 +29,13 @@ const CreateGig = () => {
     });
   };
 
+  const handleCheckboxChange = (e) => {
+    setGigData({
+      ...gigData,
+      isTechnical: e.target.checked,
+    });
+  };
+
   const handleImageChange = (e) => {
     const file = e.target.files[0];
     if (file) {
@@ -37,28 +46,54 @@ const CreateGig = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const formData = new FormData();
-
-    for (const key in gigData) {
-      formData.append(key, gigData[key]);
-    }
 
     try {
-      const response = await axios.post("http://localhost:4000/api/v1/gigs/create", formData, {
+      console.log("Uploading image to Cloudinary...");
+
+      const formDataToUpload = new FormData();
+      formDataToUpload.append("file", gigData.image);
+      formDataToUpload.append("upload_preset", "sp-cnic");
+
+      const uploadResponse = await axios.post(
+        "https://api.cloudinary.com/v1_1/dfw3oi6am/image/upload",
+        formDataToUpload,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
+
+      const imageUrl = uploadResponse?.data?.secure_url;
+      console.log("Image URL:", imageUrl);
+
+      if (!imageUrl) {
+        setError("Image upload failed. Please try again.");
+        return;
+      }
+
+      const dataToSend = {
+        ...gigData,
+        image: imageUrl,
+      };
+
+      const response = await axios.post("http://localhost:4000/api/v1/gig/createGig", dataToSend, {
         headers: {
-          "Content-Type": "multipart/form-data",
+          "Content-Type": "application/json",
         },
       });
 
       setSuccess("Gig created successfully!");
       setError("");
       setGigData({
-        profession: "",
-        experience: "",
+        title: "",
         description: "",
-        rate: "",
+        experience: "",
+        price: "",
+        availabilityHours: "",
         location: "",
         category: "",
+        isTechnical: false,
         image: null,
       });
       setImagePreview(null);
@@ -77,9 +112,9 @@ const CreateGig = () => {
 
         <input
           type="text"
-          name="profession"
-          placeholder="Profession"
-          value={gigData.profession}
+          name="title"
+          placeholder="Title"
+          value={gigData.title}
           onChange={handleChange}
           required
         />
@@ -94,9 +129,9 @@ const CreateGig = () => {
         ></textarea>
 
         <input
-          type="text"
+          type="number"
           name="experience"
-          placeholder="Experience (e.g., 3 years)"
+          placeholder="Experience (in years)"
           value={gigData.experience}
           onChange={handleChange}
           required
@@ -104,9 +139,18 @@ const CreateGig = () => {
 
         <input
           type="number"
-          name="rate"
-          placeholder="Rate (per hour in $)"
-          value={gigData.rate}
+          name="price"
+          placeholder="Price (in $)"
+          value={gigData.price}
+          onChange={handleChange}
+          required
+        />
+
+        <input
+          type="text"
+          name="availabilityHours"
+          placeholder="Availability Hours (e.g., 09:00 - 17:00)"
+          value={gigData.availabilityHours}
           onChange={handleChange}
           required
         />
@@ -127,6 +171,18 @@ const CreateGig = () => {
             </option>
           ))}
         </select>
+
+        <div className="checkbox-container">
+          <label>
+            <input
+              type="checkbox"
+              name="isTechnical"
+              checked={gigData.isTechnical}
+              onChange={handleCheckboxChange}
+            />
+            Is Technical?
+          </label>
+        </div>
 
         <div className="image-upload">
           <label htmlFor="image">Upload Image</label>
