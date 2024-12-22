@@ -120,6 +120,9 @@ const ServiceProviderForm = () => {
           },
         }
       );
+      console.log("Registration successful:", response.data);
+      localStorage.setItem("Token", response.data.token);
+
       setSuccessMessage(response.data.message);
       setErrors({}); // Clear errors on success
       setFormData({

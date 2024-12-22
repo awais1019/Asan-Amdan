@@ -4,12 +4,15 @@ import axios from "axios"; // If you're using axios for HTTP requests
 
 const ManageGigs = () => {
     const navigate = useNavigate();
+
     const [gigs, setGigs] = useState([
         { id: 1, title: "Logo Design", description: "Professional logo design services." },
         { id: 2, title: "Web Development", description: "Full-stack web development solutions." },
         { id: 3, title: "SEO Optimization", description: "Improve your website's ranking." },
     ]);
 
+
+   
     const handleDelete = (id) => {
         const updatedGigs = gigs.filter((gig) => gig.id !== id);
         setGigs(updatedGigs);

@@ -1,8 +1,11 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
 import "../styles/CreateGig/MakeGig.css";
+import { useServiceProviderAuth } from "../../Contexts/serviceProviderContexts";
 
 const CreateGig = () => {
+  const {serviceProviderAuth, setServiceProviderAuth} = useServiceProviderAuth();
+
   const [gigData, setGigData] = useState({
     title: "",
     description: "",
@@ -10,16 +13,26 @@ const CreateGig = () => {
     price: "",
     availabilityHours: "",
     location: "",
-    category: "",
+    category: "",  // Default to an empty string for category
     isTechnical: false,
     image: null,
   });
+
+  useEffect(() => {
+    console.log("Service provider auth:", serviceProviderAuth.user,serviceProviderAuth.token);
+  }, [serviceProviderAuth]);
 
   const [imagePreview, setImagePreview] = useState(null);
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
 
-  const categories = ["Web Development", "Graphic Design", "Content Writing", "Photography", "Digital Marketing"];
+  const categories = [
+    "Web Development", 
+    "Graphic Design", 
+    "Content Writing", 
+    "Photography", 
+    "Digital Marketing"
+  ];
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -92,7 +105,7 @@ const CreateGig = () => {
         price: "",
         availabilityHours: "",
         location: "",
-        category: "",
+        category: "",  // Reset category to empty string after submit
         isTechnical: false,
         image: null,
       });
@@ -165,11 +178,15 @@ const CreateGig = () => {
 
         <select name="category" value={gigData.category} onChange={handleChange} required>
           <option value="">Select a Category</option>
-          {categories.map((category, index) => (
-            <option key={index} value={category}>
-              {category}
-            </option>
-          ))}
+          {Array.isArray(categories) && categories.length > 0 ? (
+            categories.map((category, index) => (
+              <option key={index} value={category}>
+                {category}
+              </option>
+            ))
+          ) : (
+            <option value="">No categories available</option>
+          )}
         </select>
 
         <div className="checkbox-container">

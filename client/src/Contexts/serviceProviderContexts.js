@@ -4,8 +4,8 @@ import axios from "axios";
 
 const authContext=createContext();
 
-const AuthProvider=({children})=>{
-    const [auth,setAuth]=useState({
+const ServiceProviderAuth=({children})=>{
+    const [serviceProviderAuth,setServiceProviderAuth]=useState({
         user:{},
         token:null
     })
@@ -15,8 +15,9 @@ const AuthProvider=({children})=>{
         const getData = async () => {
             try {
                 const data =  localStorage.getItem('Token');
+                // console.log("it is the token",data);
                 if (data) {
-                    setAuth({
+                    setServiceProviderAuth({
                         token: data
                     });
                 }
@@ -30,34 +31,36 @@ const AuthProvider=({children})=>{
     useEffect(() => {
         const sendRequest = async () => {
             try {
-                const response = await axios.post("https://meer-kennect-ecom-server.vercel.app/api/v1/chekuser", {},
+                const response = await axios.post("http://localhost:4000/api/v1/auth/checkServiceProvider", {},
                     {
                         headers: {
-                            Authorization: auth?.token,
+                            Authorization: serviceProviderAuth?.token,
                         },
                     });
+                    // console.log("it is the response for serviceprovider",response);
                 if (response.data.success) {
-                    setAuth(
+                    setServiceProviderAuth(
                         {
-                            ...auth,
-                            user: response.data.data,
+                            ...serviceProviderAuth,
+                            user: response.data.data._id,
                         }
                     )
                 }
             } catch (error) {
                 if (error.response && error.response.status === 401) {
+                    console.log("error occured while checking service provider",error);
                     // localStorage.removeItem('lmsUserData');
                 }
             }
         }
 
-        if (auth?.token) {
+        if (serviceProviderAuth?.token) {
             sendRequest();
         }
-    }, [auth?.token]);
+    }, [serviceProviderAuth?.token]);
 
     return (
-        <authContext.Provider value={{ auth, setAuth}}>
+        <authContext.Provider value={{ serviceProviderAuth, setServiceProviderAuth}}>
             {children}
         </authContext.Provider>
     );
@@ -65,8 +68,8 @@ const AuthProvider=({children})=>{
 
 
 
-const useAuth=()=>{
+const useServiceProviderAuth=()=>{
     return useContext(authContext);
 }
 
-export {useAuth,AuthProvider};
+export {useServiceProviderAuth,ServiceProviderAuth};

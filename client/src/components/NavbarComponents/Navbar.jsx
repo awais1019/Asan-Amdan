@@ -4,6 +4,7 @@ import NavbarButton from './NavbarButton'; // A reusable button component
 import '../styles/Navbar.css';
 
 const Navbar = ({ logoText, logoHref, links, buttons }) => {
+
     return (
         <nav className="navbar">
             <div className="navbar-left">

@@ -1,28 +1,22 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import App from './App';
-import { BrowserRouter } from 'react-router-dom';
-import { AuthProvider } from './Contexts/authContexts';
+import React from "react";
+import ReactDOM from "react-dom/client";
+import App from "./App";
+import { BrowserRouter } from "react-router-dom";
+import { AuthProvider } from "./Contexts/userContexts";
+import { ServiceProviderAuth } from "./Contexts/serviceProviderContexts";
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
+const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
- <AuthProvider>
-  <React.StrictMode>
-    <BrowserRouter>
-      <App />
-    </BrowserRouter>
-  </React.StrictMode>
- </AuthProvider>
-
+  <ServiceProviderAuth>
+    <AuthProvider>
+      <React.StrictMode>
+        <BrowserRouter>
+          <App />
+        </BrowserRouter>
+      </React.StrictMode>
+    </AuthProvider>
+  </ServiceProviderAuth>
 );
-
-
-
-
-
-
-
-
 
 
 // If you want to start measuring performance in your app, pass a function

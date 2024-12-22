@@ -24,6 +24,9 @@ export const serviceProviderRegisterController = async (req, res) => {
         //   hashing password
         const hashedPassword = await hashPassword(password);
 
+
+
+
         
         // Creating new service provider
         const newServiceProvider = new serviceProvider({
@@ -40,7 +43,18 @@ export const serviceProviderRegisterController = async (req, res) => {
 
         await newServiceProvider.save();
 
-        res.status(201).json({ success: true, msg: "Service provider registered successfully!" });
+        const token = generateToken(newServiceProvider._id);
+
+        const dataToSend = {
+            _id: newServiceProvider._id,
+            email: newServiceProvider.email,
+            firstName: newServiceProvider.firstName,
+            lastName: newServiceProvider.lastName,
+            username: newServiceProvider.username,
+        };
+
+
+        res.status(201).json({ success: true, msg: "Service provider registered successfully!",token,dataToSend });
     } catch (error) {
         console.error("Error in registering service provider:", error);
         res.status(500).json({ success: false, msg: "Server error" });
