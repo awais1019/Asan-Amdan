@@ -1,11 +1,11 @@
 // HomePage.jsx
 import React from "react";
 import { useNavigate } from "react-router-dom"; // Import useNavigate hook
-import SliderContainer from "../components/HomeComponents/SliderContainer";
-import GigList from "../components/GigComponents/GigList";
+import SliderContainer from "../Components/HomeComponents/SliderContainer";
+import GigList from "../Components/GigComponents/GigList";
 import { gigs } from "../data/gigs";
 import { slides } from "../data/slides";
-import CategorySearchBar from "../components/HomeComponents/CategorySearchBar";
+import CategorySearchBar from "../Components/HomeComponents/CategorySearchBar";
 
 const HomePage = () => {
   const navigate = useNavigate(); // Initialize navigate hook

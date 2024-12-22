@@ -1,14 +1,14 @@
 import React from 'react';
 import { Routes, Route } from 'react-router-dom';
-import Navbar from './components/NavbarComponents/Navbar';
+import Navbar from './Components/NavbarComponents/Navbar';
 import HomePage from './Pages/HomePage';
 import { links } from './data/links';
 import { buttons } from './data/links';
-import SignUp from './components/AuthenticationComponents/UserSignUp';
-import SignIn from './components/AuthenticationComponents/UserSignIn';
-import CreateGig from './components/GigComponents/MakeGig';
-import GigDetail from './components/GigComponents/GigDetails';
-import ServiceProviderForm from './components/AuthenticationComponents/ServiceProviderSignUp';
+import SignUp from './Components/AuthenticationComponents/UserSignUp';
+import SignIn from './Components/AuthenticationComponents/UserSignIn';
+import CreateGig from './Components/GigComponents/MakeGig';
+import GigDetail from './Components/GigComponents/GigDetails';
+import ServiceProviderForm from './Components/AuthenticationComponents/ServiceProviderSignUp';
 
 const App = () => {
   return (

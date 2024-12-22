@@ -62,7 +62,7 @@ const gigSchema = mongoose.Schema(
         status: {
             type: String,
             default: "pending",
-            //   enum: ["pending", "approved", "rejected"], 
+            enum: ["pending", "approved", "rejected"], 
         },
         serviceProviderId: {
             type: mongoose.Schema.Types.ObjectId,
