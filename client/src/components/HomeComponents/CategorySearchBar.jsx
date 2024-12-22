@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+// CategorySearchBar.js
+import React, { useState, useEffect } from 'react';// Import your existing fetchCategories function
 import "../styles/Search/CategorySearchBar.css";
+import fetchCategories from "../Fetch/FetchCategories";
 
 const CategorySearchBar = () => {
     const [categories, setCategories] = useState({ technical: [], nonTechnical: [] });
@@ -9,21 +10,16 @@ const CategorySearchBar = () => {
 
     // Fetch categories from the backend API
     useEffect(() => {
-        const fetchCategories = async () => {
-            try {
-                const response = await axios.get('http://localhost:4000/api/v1/categories');
-                if (response.data.success) {
-                    const allCategories = response.data.data;
+        const getCategories = async () => {
+            const fetchedCategories = await fetchCategories();  // Call the external fetchCategories function
+            if (fetchedCategories.length > 0) {
+                // Separate categories into technical and non-technical
+                const technical = fetchedCategories.filter(category => category.isTechnical === true);
+                const nonTechnical = fetchedCategories.filter(category => category.isTechnical === false);
 
-                    // Separate categories into technical and non-technical
-                    const technical = allCategories.filter(category => category.type === 'technical');
-                    const nonTechnical = allCategories.filter(category => category.type === 'non-technical');
-
-                    setCategories({ technical, nonTechnical });
-                }
-            } catch (error) {
-                console.error('Error fetching categories:', error);
-                // Fallback to mock data if API fails
+                setCategories({ technical, nonTechnical });
+            } else {
+                // Fallback to mock data if no categories fetched
                 setCategories({
                     technical: [
                         { _id: '1', name: 'Web Development' },
@@ -39,18 +35,20 @@ const CategorySearchBar = () => {
             }
         };
 
-        fetchCategories();
+        getCategories();  // Call the function to fetch categories
     }, []); // Empty dependency array means this runs once on mount
 
-    // Handle category selection (you can replace this with your actual logic)
+    // Handle category selection
     const handleCategoryChange = (e) => {
-        setSelectedCategory(e.target.value);
-        if (e.target.value) {
-            window.location.href = `/search?category=${e.target.value}`;
+        const categoryId = e.target.value;
+        setSelectedCategory(categoryId);
+
+        if (categoryId) {
+            window.location.href = `/search?category=${categoryId}`;
         }
     };
 
-    // Toggle between technical and non-technical
+    // Toggle between technical and non-technical categories
     const toggleCategoryType = () => {
         setIsTechnical((prev) => !prev);
         setSelectedCategory(''); // Reset category selection on toggle

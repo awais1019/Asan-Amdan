@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import "../styles/Category/CategoryForm.css";
+import fetchCategories from "../Fetch/FetchCategories";
 
 const Header = () => {
   const [name, setName] = useState("");
@@ -10,17 +11,12 @@ const Header = () => {
 
   // Fetch all categories on component load
   useEffect(() => {
-    fetchCategories();
+    const getCategories = async () => {
+      const fetchedCategories = await fetchCategories();
+      setCategories(fetchedCategories); // Set the fetched categories to state
+    };
+    getCategories();
   }, []);
-
-  const fetchCategories = async () => {
-    try {
-      const response = await axios.get("http://localhost:4000/api/v1/categories/getAllCategories");
-      setCategories(response.data.categories);
-    } catch (error) {
-      console.error("Error fetching categories:", error.response?.data?.msg || error.message);
-    }
-  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -70,7 +66,7 @@ const Header = () => {
         }
       );
       setCategories(
-        categories.map((category) =>
+        categories?.map((category) =>
           category._id === editingCategory._id ? response.data.category : category
         )
       );

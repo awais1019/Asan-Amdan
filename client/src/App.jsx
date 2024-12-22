@@ -1,6 +1,6 @@
 import React from 'react';
 import { Routes, Route } from 'react-router-dom';
-import Navbar from './Components/NavbarComponents/Navbar';
+import Navbar from './components/NavbarComponents/Navbar';
 import HomePage from './Pages/HomePage';
 import { links } from './data/links';
 import { buttons } from './data/links';
@@ -25,9 +25,8 @@ const App = () => {
         <Route path="/" element={<HomePage />} />
         <Route path="/SignUp" element={<SignUp />} />
         <Route path="/SignIn" element={<SignIn />} />
-        <Route path="/provide-service" element={<CreateGig/>} />
         <Route path="/gig/:id" element={<GigDetail />} />
-        <Route path="/service-provider-sign-up" element={<ServiceProviderForm />} />
+        <Route path="/provide-service" element={<ServiceProviderForm />} />
         <Route path="/admin-dashboard" element={<AdminDashboard />} />
       </Routes>
     </>
