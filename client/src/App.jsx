@@ -10,6 +10,7 @@ import CreateGig from './components/GigComponents/MakeGig';
 import GigDetail from './components/GigComponents/GigDetails';
 import ServiceProviderForm from './components/AuthenticationComponents/ServiceProviderSignUp';
 import AdminDashboard from './components/Dashboards/AdminDashboard';
+import ServiceProviderDashboard from './components/Dashboards/ServiceProviderDashboard';
 const App = () => {
   return (
     <>
@@ -28,6 +29,8 @@ const App = () => {
         <Route path="/gig/:id" element={<GigDetail />} />
         <Route path="/provide-service" element={<ServiceProviderForm />} />
         <Route path="/admin-dashboard" element={<AdminDashboard />} />
+        <Route path="/service-provider-dashboard" element={<ServiceProviderDashboard />} />
+
       </Routes>
     </>
   );
