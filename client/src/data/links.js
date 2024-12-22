@@ -2,6 +2,7 @@ export const links = [
     { href: "/provide-service", text: "Provide Service" },
     { href: "/order-service", text: "Order Service" },
     { href: "/be-a-manager", text: "Be a Manager" },
+    
   ];
   
   export const buttons = [

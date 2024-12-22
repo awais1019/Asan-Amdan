@@ -6,11 +6,18 @@ export const serviceProviderRegisterController = async (req, res) => {
     try {
         const { email, password, firstName, lastName, username, phoneNumber, cnicPicture, location,isTechnical,categoryId } = req.body;
 
+<<<<<<< HEAD
         console.log("these are the service provider credentials", email,password,firstName,lastName,username,phoneNumber,cnicPicture,location,isTechnical,categoryId);
         if (!email || !password || !firstName || !lastName || !username || !phoneNumber || !cnicPicture || !isTechnical || !categoryId) {
             console.log("Incoming request body:", req.body);
             console.log("I am in backend")
             return res.status(400).json({ success: false, msg: "Backend Validation , All fields are required" });
+=======
+        if (!email || !password || !firstName || !lastName || !username || !phoneNumber || !cnicPicture) {
+            console.log("Incoming request body:", req.body);
+            console.log("I am in backend")
+            return res.status(400).json({ success: false, message: "Backend Validation , All fields are required" });
+>>>>>>> 8d50520d8ec1ebf4db892a58710067068edd0426
             
         }
 
