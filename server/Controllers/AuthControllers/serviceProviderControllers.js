@@ -4,10 +4,10 @@ import serviceProvider from "../../Models/serviceProviderModel.js";
 
 export const serviceProviderRegisterController = async (req, res) => {
     try {
-        const { email, password, firstName, lastName, username, phoneNumber, cnicPicture, location,isTechnical,categoryId } = req.body;
+        const { email, password, firstName, lastName, username, phoneNumber, cnicPicture, location } = req.body;
 
-        console.log("these are the service provider credentials", email,password,firstName,lastName,username,phoneNumber,cnicPicture,location,isTechnical,categoryId);
-        if (!email || !password || !firstName || !lastName || !username || !phoneNumber || !cnicPicture || !isTechnical || !categoryId) {
+        console.log("these are the service provider credentials", email,password,firstName,lastName,username,phoneNumber,cnicPicture,location);
+        if (!email || !password || !firstName || !lastName || !username || !phoneNumber || !cnicPicture) {
             console.log("Incoming request body:", req.body);
             console.log("I am in backend")
             return res.status(400).json({ success: false, msg: "Backend Validation , All fields are required" });
