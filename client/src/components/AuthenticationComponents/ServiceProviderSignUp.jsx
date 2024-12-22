@@ -11,10 +11,8 @@ const ServiceProviderForm = () => {
     phoneNumber: "",
     cnicPicture: null,
     location: "",
-    categoryId: "", // New field for categoryId
-    isTechnical: false, // New field for isTechnical
-    ordersCompleted: 0, // New field for ordersCompleted
-    overallEarnings: 0, // New field for overallEarnings
+    ordersCompleted: 0, // Field for ordersCompleted
+    overallEarnings: 0, // Field for overallEarnings
   });
 
   const [errors, setErrors] = useState({});
@@ -73,16 +71,6 @@ const ServiceProviderForm = () => {
       newErrors.location = "Location cannot be empty.";
     }
 
-    // Category validation (optional: you can choose if you want this required)
-    if (!formData.categoryId) {
-      newErrors.categoryId = "Category ID is required.";
-    }
-
-    // Technical field validation (optional: can be a checkbox or toggle)
-    if (formData.isTechnical === undefined) {
-      newErrors.isTechnical = "Technical status is required.";
-    }
-
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
@@ -108,9 +96,9 @@ const ServiceProviderForm = () => {
           },
         }
       );
-      console.log("it is the upload response ",uploadResponse)
+      console.log("it is the upload response ", uploadResponse);
       const imageUrl = uploadResponse?.data?.secure_url;
-      console.log("it is the image url",imageUrl)
+      console.log("it is the image url", imageUrl);
       if (!imageUrl) {
         setErrors({ form: "Image upload failed. Please try again." });
         return;
@@ -143,8 +131,6 @@ const ServiceProviderForm = () => {
         phoneNumber: "",
         cnicPicture: null,
         location: "",
-        categoryId: "",
-        isTechnical: false,
         ordersCompleted: 0,
         overallEarnings: 0,
       });
@@ -231,26 +217,6 @@ const ServiceProviderForm = () => {
             onChange={handleChange}
           />
           {errors.location && <span className="error">{errors.location}</span>}
-        </div>
-        <div>
-          <label>Category ID:</label>
-          <input
-            type="text"
-            name="categoryId"
-            value={formData.categoryId}
-            onChange={handleChange}
-          />
-          {errors.categoryId && <span className="error">{errors.categoryId}</span>}
-        </div>
-        <div>
-          <label>Is Technical:</label>
-          <input
-            type="checkbox"
-            name="isTechnical"
-            checked={formData.isTechnical}
-            onChange={(e) => setFormData({ ...formData, isTechnical: e.target.checked })}
-          />
-          {errors.isTechnical && <span className="error">{errors.isTechnical}</span>}
         </div>
         <div>
           <label>CNIC Picture:</label>
