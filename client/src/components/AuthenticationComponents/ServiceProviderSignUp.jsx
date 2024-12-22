@@ -108,9 +108,15 @@ const ServiceProviderForm = () => {
           },
         }
       );
+<<<<<<< HEAD
+      console.log("it is the upload response ",uploadResponse)
+      const imageUrl = uploadResponse?.data?.secure_url;
+      console.log("it is the image url",imageUrl)
+=======
 
       const imageUrl = uploadResponse?.data?.secure_url;
 
+>>>>>>> 8d50520d8ec1ebf4db892a58710067068edd0426
       if (!imageUrl) {
         setErrors({ form: "Image upload failed. Please try again." });
         return;
@@ -119,9 +125,15 @@ const ServiceProviderForm = () => {
       // Now prepare the data to send as JSON (including the image URL)
       const dataToSend = {
         ...formData,
+<<<<<<< HEAD
+        cnicPicture: imageUrl, // Add the image URL here
+      };
+      console.log("it is the data going to backend",dataToSend);
+=======
         cnicPictureUrl: imageUrl, // Add the image URL here
       };
 
+>>>>>>> 8d50520d8ec1ebf4db892a58710067068edd0426
       // Send the data as JSON
       const response = await axios.post(
         'http://localhost:4000/api/v1/auth/serviceProviderRegister',
@@ -133,7 +145,11 @@ const ServiceProviderForm = () => {
         }
       );
 
+<<<<<<< HEAD
+      setSuccessMessage(response.data.msg);
+=======
       setSuccessMessage(response.data.message);
+>>>>>>> 8d50520d8ec1ebf4db892a58710067068edd0426
       setErrors({}); // Clear errors on success
       setFormData({
         email: "",

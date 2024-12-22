@@ -4,13 +4,13 @@ import serviceProvider from "../../Models/serviceProviderModel.js";
 
 export const serviceProviderRegisterController = async (req, res) => {
     try {
-        const { email, password, firstName, lastName, username, phoneNumber, cnicPicture, location } = req.body;
+        const { email, password, firstName, lastName, username, phoneNumber, cnicPicture, location,isTechnical,categoryId } = req.body;
 
-        if (!email || !password || !firstName || !lastName || !username || !phoneNumber || !cnicPicture) {
+        console.log("these are the service provider credentials", email,password,firstName,lastName,username,phoneNumber,cnicPicture,location,isTechnical,categoryId);
+        if (!email || !password || !firstName || !lastName || !username || !phoneNumber || !cnicPicture || !isTechnical || !categoryId) {
             console.log("Incoming request body:", req.body);
             console.log("I am in backend")
-            return res.status(400).json({ success: false, message: "Backend Validation , All fields are required" });
-            
+            return res.status(400).json({ success: false, msg: "Backend Validation , All fields are required" });
         }
 
         const existingProvider = await serviceProvider.findOne({
@@ -18,12 +18,13 @@ export const serviceProviderRegisterController = async (req, res) => {
         });
 
         if (existingProvider) {
-            return res.status(400).json({ success: false, message: "Email or username already exists." });
+            return res.status(400).json({ success: false, msg: "Email or username already exists." });
         }
 
         //   hashing password
         const hashedPassword = await hashPassword(password);
 
+        
         // Creating new service provider
         const newServiceProvider = new serviceProvider({
             email,
@@ -39,10 +40,10 @@ export const serviceProviderRegisterController = async (req, res) => {
 
         await newServiceProvider.save();
 
-        res.status(201).json({ success: true, message: "Service provider registered successfully!" });
+        res.status(201).json({ success: true, msg: "Service provider registered successfully!" });
     } catch (error) {
         console.error("Error in registering service provider:", error);
-        res.status(500).json({ success: false, message: "Server error" });
+        res.status(500).json({ success: false, msg: "Server error" });
     }
 };
 
