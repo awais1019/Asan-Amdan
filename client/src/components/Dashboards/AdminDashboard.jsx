@@ -3,7 +3,7 @@ import ManageUsers from "../ManagementComponents/ManageUsers";
 import ManageServiceProviders from "../ManagementComponents/ManageServiceProviders";
 import "../styles/Dashboards/AdminDashboard.css";
 import ManageGigs from "../ManagementComponents/ManageGigs";
-import ManageCategories from "../ManagementComponents/ManageCategories";
+import CategoryForm from "../Category/CategoryForm.jsx";
 
 
 const AdminDashboard = () => {
@@ -18,7 +18,7 @@ const AdminDashboard = () => {
             case "gigs":
                 return <ManageGigs />;
             case "categories":
-                return <ManageCategories />;
+                return <CategoryForm />;
             default:
                 return <h2>Select an option from the panel</h2>;
         }
