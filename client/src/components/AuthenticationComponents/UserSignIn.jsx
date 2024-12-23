@@ -1,10 +1,13 @@
 import React, { useState } from "react";
 import axios from "axios"; // Make sure axios is installed
 import "../styles/Authentication/UserSignIn.css";
+import { useServiceProviderAuth } from "../../Contexts/serviceProviderContexts";
 const SignIn = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [errorMessage, setErrorMessage] = useState("");
+    const {serviceProviderAuth,setServiceProviderAuth}=useServiceProviderAuth();
+
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -15,6 +18,9 @@ const SignIn = () => {
             if (response.data.success) {
                 // Store token in localStorage or cookie (depending on your authentication flow)
                 localStorage.setItem("authToken", response.data.token);
+
+                setServiceProviderAuth(response.data.data);
+
                 // Redirect to dashboard or another protected page
                 window.location.href = "/"; // Example redirect
             }

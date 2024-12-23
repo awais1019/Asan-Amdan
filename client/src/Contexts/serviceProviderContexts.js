@@ -7,7 +7,7 @@ const authContext=createContext();
 const ServiceProviderAuth=({children})=>{
     const [serviceProviderAuth,setServiceProviderAuth]=useState({
         user:{},
-        token:null
+        token:null      
     })
 
 
@@ -37,12 +37,12 @@ const ServiceProviderAuth=({children})=>{
                             Authorization: serviceProviderAuth?.token,
                         },
                     });
-                    // console.log("it is the response for serviceprovider",response);
+                    console.log("it is the response for serviceprovider",response.data.data);
                 if (response.data.success) {
                     setServiceProviderAuth(
                         {
                             ...serviceProviderAuth,
-                            user: response.data.data._id,
+                            user: response.data.data
                         }
                     )
                 }
