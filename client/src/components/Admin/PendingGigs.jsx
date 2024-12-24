@@ -14,6 +14,7 @@ const PendingGigs = () => {
           Authorization: `${localStorage.getItem("authToken")}`,
         },
       });
+      setGigs(response.data.gigs);
     } catch (err) {
       setError("Failed to fetch pending gigs. Please try again.");
     } finally {
