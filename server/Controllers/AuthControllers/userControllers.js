@@ -28,7 +28,6 @@ export const registerController = async (req, res) => {
 
         const userResponse = { email, firstName, lastName, userName, isAdmin };
         return res.status(201).json({ success: true, msg: "User Created Successfully", data: userResponse });
-
     } catch (error) {
         console.log("error in registering user", error);
         return res.status(500).json({ success: false, msg: "Server Error" });

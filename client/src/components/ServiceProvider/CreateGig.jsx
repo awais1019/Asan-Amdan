@@ -4,7 +4,7 @@ import "../styles/CreateGig/MakeGig.css";
 import { useServiceProviderAuth } from "../../Contexts/serviceProviderContexts";
 
 const CreateGig = () => {
-  const {serviceProviderAuth, setServiceProviderAuth} = useServiceProviderAuth();
+  const { serviceProviderAuth, setServiceProviderAuth } = useServiceProviderAuth();
 
   const [gigData, setGigData] = useState({
     title: "",
@@ -19,7 +19,7 @@ const CreateGig = () => {
   });
 
   useEffect(() => {
-    console.log("Service provider auth:", serviceProviderAuth.user,serviceProviderAuth.token);
+    console.log("Service provider auth:", serviceProviderAuth.user, serviceProviderAuth.token);
   }, [serviceProviderAuth]);
 
   const [imagePreview, setImagePreview] = useState(null);
@@ -59,14 +59,15 @@ const CreateGig = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+  
     try {
       console.log("Uploading image to Cloudinary...");
-
+  
       const formDataToUpload = new FormData();
       formDataToUpload.append("file", gigData.image);
       formDataToUpload.append("upload_preset", "sp-cnic");
-
+  
+      // Upload the image to Cloudinary
       const uploadResponse = await axios.post(
         "https://api.cloudinary.com/v1_1/dfw3oi6am/image/upload",
         formDataToUpload,
@@ -76,26 +77,36 @@ const CreateGig = () => {
           },
         }
       );
-
+  
       const imageUrl = uploadResponse?.data?.secure_url;
       console.log("Image URL:", imageUrl);
-
+  
       if (!imageUrl) {
         setError("Image upload failed. Please try again.");
         return;
       }
-
+  
+      // Prepare data to send to the server (with service provider's ID and token)
       const dataToSend = {
         ...gigData,
         image: imageUrl,
       };
-
-      const response = await axios.post("http://localhost:4000/api/v1/gig/createGig", dataToSend, {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-
+  
+      // Assuming serviceProviderAuth contains the token and ID
+      const { user, token } = serviceProviderAuth;
+  
+      // Make POST request to the backend to create the gig
+      const response = await axios.post(
+        `http://localhost:4000/api/v1/gig/createGig/${user.id}`,  // Using user.id as serviceProviderId
+        dataToSend,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,  // Sending the token for authentication
+          },
+        }
+      );
+  
       setSuccess("Gig created successfully!");
       setError("");
       setGigData({
@@ -115,6 +126,7 @@ const CreateGig = () => {
       setSuccess("");
     }
   };
+  
 
   return (
     <div className="create-gig-container">

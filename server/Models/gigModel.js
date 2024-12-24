@@ -72,7 +72,6 @@ const gigSchema = mongoose.Schema(
 const Gig = mongoose.model("Gig", gigSchema);
 export default Gig;
 
-
 // Gig
 //     Title
 //     Description

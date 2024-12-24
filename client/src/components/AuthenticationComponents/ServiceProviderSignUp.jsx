@@ -29,7 +29,6 @@ const ServiceProviderForm = () => {
 
   const validateForm = () => {
     const newErrors = {};
-
     // Email validation
     if (!formData.email || !/\S+@\S+\.\S+/.test(formData.email)) {
       newErrors.email = "A valid email is required.";
