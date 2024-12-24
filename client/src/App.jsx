@@ -12,7 +12,6 @@ import ServiceProviderForm from './components/AuthenticationComponents/ServicePr
 import AdminDashboard from './components/Dashboards/AdminDashboard';
 import ServiceProviderDashboard from './components/Dashboards/ServiceProviderDashboard';
 import CreateGig from './components/ServiceProvider/CreateGig';
-import UserDashboard from './components/Dashboards/UserDashboard';
 const App = () => {
   return (
     <>
@@ -33,7 +32,6 @@ const App = () => {
         <Route path="/admin-dashboard" element={<AdminDashboard />} />
         <Route path="/service-provider-dashboard" element={<ServiceProviderDashboard />} />
         <Route path="/Gig/addGig" element={<CreateGig/>} />
-        <Route path="/user-dashboard" element={<UserDashboard />} />
       </Routes>
     </>
   );

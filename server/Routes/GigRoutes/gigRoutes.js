@@ -13,7 +13,7 @@ router.delete('/deleteGig/:gigId',authenticateServiceProvider,deleteGigControlle
 router.put('/updateGigStatus/:gigId',checkAdmin,updateGigStatusController);
 
 
-
+//checkAdmin,
 
 
 export default router;

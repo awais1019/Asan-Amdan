@@ -246,7 +246,7 @@ export const updateGigController = async (req, res) => {
 export const getPendingGigsController = async (req, res) => {
   try {
     const pendingGigs = await Gig.find({ status: "pending" });
-
+    console.log(`This is gigs" ${pendingGigs}`)
     if (!pendingGigs || pendingGigs.length === 0) {
       return res.status(404).json({
         success: false,
@@ -254,6 +254,7 @@ export const getPendingGigsController = async (req, res) => {
       });
     }
 
+    console.log("Pending gigs:", pendingGigs);
     res.status(200).json({
       success: true,
       gigs: pendingGigs,
