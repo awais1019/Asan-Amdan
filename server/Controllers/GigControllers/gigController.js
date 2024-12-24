@@ -269,8 +269,6 @@ export const getPendingGigsController = async (req, res) => {
 };
 
 
-import Gig from "../models/gigModel.js"; // Assuming your model file is named gigModel.js
-
 export const updateGigStatusController = async (req, res) => {
   try {
     const { gigId } = req.params; 
