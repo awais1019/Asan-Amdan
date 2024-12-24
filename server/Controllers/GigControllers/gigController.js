@@ -267,3 +267,48 @@ export const getPendingGigsController = async (req, res) => {
   }
 };
 
+
+import Gig from "../models/gigModel.js"; // Assuming your model file is named gigModel.js
+
+export const updateGigStatusController = async (req, res) => {
+  try {
+    const { gigId } = req.params; 
+    const { status } = req.body; 
+
+    // Check if the status is valid
+    if (!["pending", "approved", "rejected"].includes(status)) {
+      return res.status(400).json({
+        success: false,
+        msg: "Invalid status value. Allowed values are 'pending', 'approved', 'rejected'.",
+      });
+    }
+
+    // Find and update the gig by ID
+    const updatedGig = await Gig.findByIdAndUpdate(
+      gigId, 
+      { status }, 
+      { new: true } 
+    );
+
+    // If the gig is not found
+    if (!updatedGig) {
+      return res.status(404).json({
+        success: false,
+        msg: "Gig not found.",
+      });
+    }
+
+    // Success response
+    res.status(200).json({
+      success: true,
+      msg: "Gig status updated successfully.",
+      gig: updatedGig,
+    });
+  } catch (error) {
+    console.error("Error while updating gig status:", error);
+    res.status(500).json({
+      success: false,
+      msg: "Server error. Could not update gig status.",
+    });
+  }
+};
