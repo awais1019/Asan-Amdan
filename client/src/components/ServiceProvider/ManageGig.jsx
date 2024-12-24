@@ -50,7 +50,7 @@ const ManageGigs = () => {
 
         try {
             const response = await axios.delete(
-                `http://localhost:4000/api/v1/gig/gigDetail/${id}`,
+                `http://localhost:4000/api/v1/gig/deleteGig/${id}`,
                 {
                     headers: {
                         Authorization: `${serviceProviderAuth.token}`,

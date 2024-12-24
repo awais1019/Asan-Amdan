@@ -104,8 +104,9 @@ const UpdateGig = () => {
                     },
                 }
             );
+            console.log("this response when updating gig",response.data);
             if (response.data.success) {
-                navigate(`/gig/${id}`); // Redirect after successful update
+                navigate(`/service-provider-dashboard`); // Redirect after successful update
             } else {
                 setError(response.data.msg || "Failed to update gig.");
             }
