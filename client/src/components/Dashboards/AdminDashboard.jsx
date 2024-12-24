@@ -2,8 +2,8 @@ import React, { useState } from "react";
 import ManageUsers from "../Admin/ManageUsers.jsx";
 import ManageServiceProviders from "../Admin/ManageServiceProviders.jsx";
 import "../styles/Dashboards/AdminDashboard.css";
-import ManageGigs from "../Admin/AdminManageGigs.jsx";
 import CategoryForm from "../Category/CategoryForm.jsx";
+import PendingGigs from "../Admin/PendingGigs.jsx";
 
 
 const AdminDashboard = () => {
@@ -16,7 +16,7 @@ const AdminDashboard = () => {
             case "serviceProviders":
                 return <ManageServiceProviders />;
             case "gigs":
-                return <ManageGigs />;
+                return <PendingGigs />;
             case "categories":
                 return <CategoryForm />;
             default:
