@@ -7,6 +7,9 @@ export const registerController = async (req, res) => {
     try {
         const { email, password, firstName, lastName, userName, phoneNumber, location } = req.body;
 
+        console.log("it is username",userName);
+        console.log("it is req.body",req.body);
+
         if (!email || !password || !firstName || !lastName || !userName || !phoneNumber) {
             return res.status(400).json({ success: false, msg: "All Fields Are Required" });
         }
@@ -28,7 +31,6 @@ export const registerController = async (req, res) => {
 
         const userResponse = { email, firstName, lastName, userName, isAdmin };
         return res.status(201).json({ success: true, msg: "User Created Successfully", data: userResponse });
-
     } catch (error) {
         console.log("error in registering user", error);
         return res.status(500).json({ success: false, msg: "Server Error" });

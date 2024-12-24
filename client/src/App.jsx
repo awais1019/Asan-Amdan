@@ -33,9 +33,12 @@ const App = () => {
         <Route path="/admin-dashboard" element={<AdminDashboard />} />
         <Route path="/service-provider-dashboard" element={<ServiceProviderDashboard />} />
         <Route path="/Gig/addGig" element={<CreateGig/>} />
+<<<<<<< HEAD
         <Route path="/Gig/UpdateGig/:id" element={<UpdateGig/>} />
 
 
+=======
+>>>>>>> 8772e5e1d23401ddec023b119fc4f30fc97755bd
       </Routes>
     </>
   );

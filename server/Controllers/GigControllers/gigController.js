@@ -193,11 +193,15 @@ export const deleteGigController = async (req, res) => {
 export const updateGigController = async (req, res) => {
   try {
     const { gigId } = req.params; 
-    const { title, description, experience, price, availabilityHours, location, image, video, document, category } = req.body;
+    const { title, description, experience, price, availabilityHours, image, category } = req.body;
 
+<<<<<<< HEAD
     console.log("this is when updating gig",req.body,"and it is gig id",gigId)
 
     if(!gigId || !title || !description || !experience || !price || !availabilityHours ||  !image || !category) {
+=======
+    if(!gigId || !title || !description || !experience || !price || !availabilityHours ||  !image) {
+>>>>>>> 8772e5e1d23401ddec023b119fc4f30fc97755bd
         return res.status(400).json({success:false,msg:"All fields are required"});
     }
 
@@ -207,18 +211,18 @@ export const updateGigController = async (req, res) => {
       experience,
       price,
       availabilityHours,
-      location: location !== undefined ? location : null,
+      // location: location !== undefined ? location : null,
       image,
-      video: video !== undefined ? video : null,
-      document: document !== undefined ? document : null, 
-      category,
+      // video: video !== undefined ? video : null,
+      // document: document !== undefined ? document : null, 
+      // category,
     };
 
-    for (let key in updatedData) {
-      if (updatedData[key] === undefined) {
-        delete updatedData[key];
-      }
-    }
+    // for (let key in updatedData) {
+    //   if (updatedData[key] === undefined) {
+    //     delete updatedData[key];
+    //   }
+    // }
 
     // Find the gig by its ID and update it
     const updatedGig = await Gig.findByIdAndUpdate(gigId, updatedData, { new: true }); 
@@ -246,3 +250,71 @@ export const updateGigController = async (req, res) => {
   }
 };
 
+export const getPendingGigsController = async (req, res) => {
+  try {
+    const pendingGigs = await Gig.find({ status: "pending" });
+    console.log(`This is gigs" ${pendingGigs}`)
+    if (!pendingGigs || pendingGigs.length === 0) {
+      return res.status(404).json({
+        success: false,
+        msg: "No pending gigs found",
+      });
+    }
+
+    console.log("Pending gigs:", pendingGigs);
+    res.status(200).json({
+      success: true,
+      gigs: pendingGigs,
+    });
+  } catch (error) {
+    console.error("Error while fetching pending gigs:", error);
+    res.status(500).json({
+      success: false,
+      msg: "Server error. Could not fetch pending gigs.",
+    });
+  }
+};
+
+
+export const updateGigStatusController = async (req, res) => {
+  try {
+    const { gigId } = req.params; 
+    const { status } = req.body; 
+
+    // Check if the status is valid
+    if (!["pending", "approved", "rejected"].includes(status)) {
+      return res.status(400).json({
+        success: false,
+        msg: "Invalid status value. Allowed values are 'pending', 'approved', 'rejected'.",
+      });
+    }
+
+    // Find and update the gig by ID
+    const updatedGig = await Gig.findByIdAndUpdate(
+      gigId, 
+      { status }, 
+      { new: true } 
+    );
+
+    // If the gig is not found
+    if (!updatedGig) {
+      return res.status(404).json({
+        success: false,
+        msg: "Gig not found.",
+      });
+    }
+
+    // Success response
+    res.status(200).json({
+      success: true,
+      msg: "Gig status updated successfully.",
+      gig: updatedGig,
+    });
+  } catch (error) {
+    console.error("Error while updating gig status:", error);
+    res.status(500).json({
+      success: false,
+      msg: "Server error. Could not update gig status.",
+    });
+  }
+};

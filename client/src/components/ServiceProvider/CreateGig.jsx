@@ -85,24 +85,26 @@ const CreateGig = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+  
     try {
       const formDataToUpload = new FormData();
       formDataToUpload.append("file", gigData.image);
       formDataToUpload.append("upload_preset", "sp-cnic");
-
+  
+      // Upload the image to Cloudinary
       const uploadResponse = await axios.post(
         "https://api.cloudinary.com/v1_1/dfw3oi6am/image/upload",
         formDataToUpload
       );
-
+  
       const imageUrl = uploadResponse?.data?.secure_url;
 
       if (!imageUrl) {
         setError("Image upload failed. Please try again.");
         return;
       }
-
+  
+      // Prepare data to send to the server (with service provider's ID and token)
       const dataToSend = {
         title: gigData.title,
         description: gigData.description,
@@ -145,6 +147,7 @@ const CreateGig = () => {
       setSuccess("");
     }
   };
+  
 
   return (
     <div className="create-gig-container">
