@@ -195,13 +195,10 @@ export const updateGigController = async (req, res) => {
     const { gigId } = req.params; 
     const { title, description, experience, price, availabilityHours, image, category } = req.body;
 
-<<<<<<< HEAD
     console.log("this is when updating gig",req.body,"and it is gig id",gigId)
 
-    if(!gigId || !title || !description || !experience || !price || !availabilityHours ||  !image || !category) {
-=======
+
     if(!gigId || !title || !description || !experience || !price || !availabilityHours ||  !image) {
->>>>>>> 8772e5e1d23401ddec023b119fc4f30fc97755bd
         return res.status(400).json({success:false,msg:"All fields are required"});
     }
 
