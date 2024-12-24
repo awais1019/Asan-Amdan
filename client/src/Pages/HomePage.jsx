@@ -1,26 +1,50 @@
 // HomePage.jsx
-import React from "react";
-import { useNavigate } from "react-router-dom"; // Import useNavigate hook
+import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
 import SliderContainer from "../components/HomeComponents/SliderContainer";
 import GigList from "../components/GigComponents/GigList";
-import { gigs } from "../data/gigs";
 import { slides } from "../data/slides";
 import CategorySearchBar from "../components/HomeComponents/CategorySearchBar";
 
 const HomePage = () => {
-  const navigate = useNavigate(); // Initialize navigate hook
+  const [gigs, setGigs] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
-  const handleGigClick = (gig) => {
-    // Navigate to the GigDetail page, passing the gig's id as a parameter
-    navigate(`/gig/${gig.id}`);
+  const navigate = useNavigate();
+
+  const fetchActiveGigs = async () => {
+    try {
+      const response = await axios.get("http://localhost:4000/api/v1/gig/getAllGigs", {
+        headers: {
+          Authorization: `${localStorage.getItem("authToken")}`,
+        },
+      });
+      setGigs(response.data.gigs);
+    } catch (err) {
+      setError("Failed to fetch gigs. Please try again.");
+    } finally {
+      setLoading(false);
+    }
   };
+
+  useEffect(() => {
+    fetchActiveGigs();
+  }, []);
+
+  const handleGigClick = (gigId) => {
+    // Navigate to the GigDetail page, passing the gig's id as a parameter
+    navigate(`/gig/${gigId}`);
+  };
+
+  if (loading) return <p>Loading available gigs...</p>;
+  if (error) return <p>{error}</p>;
 
   return (
     <>
-      {/* Slider */}
       <SliderContainer slides={slides} />
       <CategorySearchBar />
-      {/* Gigs Section */}
       <section className="gigs-section">
         <div className="container">
           <h1 className="section-title">Available Gigs</h1>

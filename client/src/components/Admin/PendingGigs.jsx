@@ -9,7 +9,7 @@ const PendingGigs = () => {
   // Fetch pending gigs
   const fetchPendingGigs = async () => {
     try {
-      const response = await axios.get("http://localhost:4000/api/v1/gig/getPendingGigs",{
+      const response = await axios.get("http://localhost:4000/api/v1/gig/getPendingGigs", {
         headers: {
           Authorization: `${localStorage.getItem("authToken")}`,
         },
@@ -22,25 +22,23 @@ const PendingGigs = () => {
     }
   };
 
-  // Approve Gig
-  const approveGig = async (gigId) => {
+  // Update Gig Status
+  const updateGigStatus = async (gigId, status) => {
     try {
-      await axios.put(`/api/gigs/${gigId}/approve`);
-      setGigs((prevGigs) => prevGigs.filter((gig) => gig._id !== gigId));
-      alert("Gig approved successfully!");
+      const response = await axios.put(
+        `http://localhost:4000/api/v1/gig/updateGigStatus/${gigId}`,
+        { status },
+        {
+          headers: {
+            Authorization: `${localStorage.getItem("authToken")}`,
+          },
+        }
+      );
+      const updatedGig = response.data.gig;
+      setGigs((prevGigs) => prevGigs.filter((gig) => gig._id !== updatedGig._id));
+      alert(`Gig ${status === "approved" ? "approved" : "rejected"} successfully!`);
     } catch (err) {
-      alert("Failed to approve gig. Please try again.");
-    }
-  };
-
-  // Reject Gig
-  const rejectGig = async (gigId) => {
-    try {
-      await axios.put(`/api/gigs/${gigId}/reject`);
-      setGigs((prevGigs) => prevGigs.filter((gig) => gig._id !== gigId));
-      alert("Gig rejected successfully!");
-    } catch (err) {
-      alert("Failed to reject gig. Please try again.");
+      alert(`Failed to update gig status to ${status}. Please try again.`);
     }
   };
 
@@ -87,8 +85,8 @@ const PendingGigs = () => {
                   borderRadius: "5px",
                   cursor: "pointer",
                 }}
-                onClick={() => approveGig(gig._id)}
-              >
+                onClick={() => updateGigStatus(gig._id, "approved")}
+              > 
                 Approve
               </button>
               <button
@@ -100,7 +98,7 @@ const PendingGigs = () => {
                   borderRadius: "5px",
                   cursor: "pointer",
                 }}
-                onClick={() => rejectGig(gig._id)}
+                onClick={() => updateGigStatus(gig._id, "rejected")}
               >
                 Reject
               </button>

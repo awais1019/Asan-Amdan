@@ -10,17 +10,16 @@ export const createGigController = async (req, res) => {
       price,
       availabilityHours,
       location,
-      image, 
-      // video, 
-      // document, 
+      image,
+      // video,
+      // document,
       categoryId,
-      isTechnical
+      isTechnical,
     } = req.body;
     const { serviceProviderId } = req.params;
 
-    console.log("it is req.body",req.body);
-    console.log("it is sp id",serviceProviderId)
-    
+    console.log("it is req.body", req.body);
+    console.log("it is sp id", serviceProviderId);
 
     if (
       !title ||
@@ -31,13 +30,14 @@ export const createGigController = async (req, res) => {
       !image ||
       !categoryId ||
       !serviceProviderId ||
-      !isTechnical
+      isTechnical === undefined || // Explicit check for undefined
+      isTechnical === null
     ) {
       console.log("something not found");
-      return res.status(400).json({ success: false, msg: "All fields are required" });
+      return res
+        .status(400)
+        .json({ success: false, msg: "All fields are required" });
     }
-
-
     // Create a new Gig document
     const newGig = new Gig({
       title,
@@ -51,7 +51,7 @@ export const createGigController = async (req, res) => {
       // document,
       categoryId,
       serviceProviderId,
-      isTechnical
+      isTechnical,
     });
 
     // Save the new Gig to the database
@@ -73,7 +73,7 @@ export const createGigController = async (req, res) => {
 
 export const getGigByIdController = async (req, res) => {
   try {
-    const { gigId } = req.params; 
+    const { gigId } = req.params;
 
     if (!gigId) {
       return res.status(400).json({
@@ -140,7 +140,7 @@ export const getGigForServiceProviderController = async (req, res) => {
 
 export const getAllGigsController = async (req, res) => {
   try {
-    const gigs = await Gig.find()
+    const gigs = await Gig.find();
 
     if (gigs.length === 0) {
       return res.status(404).json({
@@ -164,7 +164,7 @@ export const getAllGigsController = async (req, res) => {
 
 export const deleteGigController = async (req, res) => {
   try {
-    const { gigId } = req.params; 
+    const { gigId } = req.params;
 
     const gigToDelete = await Gig.findByIdAndDelete(gigId);
 
@@ -191,11 +191,33 @@ export const deleteGigController = async (req, res) => {
 
 export const updateGigController = async (req, res) => {
   try {
-    const { gigId } = req.params; 
-    const { title, description, experience, price, availabilityHours, location, image, video, document, category } = req.body;
+    const { gigId } = req.params;
+    const {
+      title,
+      description,
+      experience,
+      price,
+      availabilityHours,
+      location,
+      image,
+      video,
+      document,
+      category,
+    } = req.body;
 
-    if(!gigId || !title || !description || !experience || !price || !availabilityHours ||  !image || !category) {
-        return res.status(400).json({success:false,msg:"All fields are required"});
+    if (
+      !gigId ||
+      !title ||
+      !description ||
+      !experience ||
+      !price ||
+      !availabilityHours ||
+      !image ||
+      !category
+    ) {
+      return res
+        .status(400)
+        .json({ success: false, msg: "All fields are required" });
     }
 
     const updatedData = {
@@ -207,7 +229,7 @@ export const updateGigController = async (req, res) => {
       location: location !== undefined ? location : null,
       image,
       video: video !== undefined ? video : null,
-      document: document !== undefined ? document : null, 
+      document: document !== undefined ? document : null,
       category,
     };
 
@@ -218,7 +240,9 @@ export const updateGigController = async (req, res) => {
     }
 
     // Find the gig by its ID and update it
-    const updatedGig = await Gig.findByIdAndUpdate(gigId, updatedData, { new: true }); 
+    const updatedGig = await Gig.findByIdAndUpdate(gigId, updatedData, {
+      new: true,
+    });
 
     // If no gig is found, return a 404 error
     if (!updatedGig) {
@@ -246,7 +270,7 @@ export const updateGigController = async (req, res) => {
 export const getPendingGigsController = async (req, res) => {
   try {
     const pendingGigs = await Gig.find({ status: "pending" });
-    console.log(`This is gigs" ${pendingGigs}`)
+    console.log(`This is gigs" ${pendingGigs}`);
     if (!pendingGigs || pendingGigs.length === 0) {
       return res.status(404).json({
         success: false,
@@ -268,11 +292,10 @@ export const getPendingGigsController = async (req, res) => {
   }
 };
 
-
 export const updateGigStatusController = async (req, res) => {
   try {
-    const { gigId } = req.params; 
-    const { status } = req.body; 
+    const { gigId } = req.params;
+    const { status } = req.body;
 
     // Check if the status is valid
     if (!["pending", "approved", "rejected"].includes(status)) {
@@ -284,9 +307,9 @@ export const updateGigStatusController = async (req, res) => {
 
     // Find and update the gig by ID
     const updatedGig = await Gig.findByIdAndUpdate(
-      gigId, 
-      { status }, 
-      { new: true } 
+      gigId,
+      { status },
+      { new: true }
     );
 
     // If the gig is not found

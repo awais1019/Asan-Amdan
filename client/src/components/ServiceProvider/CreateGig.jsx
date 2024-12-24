@@ -85,7 +85,7 @@ const CreateGig = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-  
+    alert("Submit button clicked");
     try {
       const formDataToUpload = new FormData();
       formDataToUpload.append("file", gigData.image);
@@ -117,6 +117,8 @@ const CreateGig = () => {
         image: imageUrl,
       };
 
+      console.log("it is data to send to the server while adding gig",dataToSend);
+
       const response = await axios.post(
         `http://localhost:4000/api/v1/gig/createGig/${dataToSend.serviceProviderId}`,
         dataToSend,
@@ -127,6 +129,7 @@ const CreateGig = () => {
           },
         }
       );
+      console.log("response from server while adding gig", response);
 
       setSuccess("Gig created successfully!");
       setError("");
