@@ -1,30 +1,92 @@
 import React, { useState, useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import axios from "axios"; // If you're using axios for HTTP requests
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import { useServiceProviderAuth } from "../../Contexts/serviceProviderContexts";
+import "../styles/CreateGig/ManageGig.css";
 
 const ManageGigs = () => {
     const navigate = useNavigate();
+    const { serviceProviderAuth } = useServiceProviderAuth();
 
-    const [gigs, setGigs] = useState([
-        { id: 1, title: "Logo Design", description: "Professional logo design services." },
-        { id: 2, title: "Web Development", description: "Full-stack web development solutions." },
-        { id: 3, title: "SEO Optimization", description: "Improve your website's ranking." },
-    ]);
+    const [gigs, setGigs] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState("");
 
+    // Fetch gigs from the backend
+    useEffect(() => {
+        const fetchGigs = async () => {
+            setError("");
+            setLoading(true);
 
-   
-    const handleDelete = (id) => {
-        const updatedGigs = gigs.filter((gig) => gig.id !== id);
-        setGigs(updatedGigs);
+            try {
+                const response = await axios.get(
+                    `http://localhost:4000/api/v1/gig/getServiceProviderGigs/${serviceProviderAuth.user._id}`,
+                    {
+                        headers: {
+                            Authorization: `${serviceProviderAuth.token}`,
+                        },
+                    }
+                );
+
+                if (response.data.success) {
+                    setGigs(response.data.gigs);
+                } else {
+                    setError(response.data.msg || "Failed to fetch gigs.");
+                }
+            } catch (err) {
+                setError(`Server error. Could not retrieve gigs. ${err}`);
+                console.error("Error fetching gigs:", err);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchGigs();
+    }, [serviceProviderAuth]);
+
+    // Handle Delete Gig
+    const handleDelete = async (id) => {
+        if (!window.confirm("Are you sure you want to delete this gig?")) return;
+
+        try {
+            const response = await axios.delete(
+                `http://localhost:4000/api/v1/gig/deleteGig/${id}`,
+                {
+                    headers: {
+                        Authorization: `${serviceProviderAuth.token}`,
+                    },
+                }
+            );
+
+            if (response.data.success) {
+                const updatedGigs = gigs.filter((gig) => gig._id !== id);
+                setGigs(updatedGigs);
+            } else {
+                setError(response.data.msg || "Failed to delete the gig.");
+            }
+        } catch (err) {
+            console.error("Error deleting gig:", err);
+            setError("Failed to delete the gig.");
+        }
     };
 
-    const handleUpdate = (id) => {
-        navigate(`/updateGigPage/${id}`);
+    // Navigate to Update Gig Page
+    const handleUpdate = (gig) => {
+        navigate(`/Gig/UpdateGig/${gig._id}`);
     };
-
+    // Navigate to Add Gig Page
     const handleAddGig = () => {
         navigate("/Gig/addGig");
     };
+
+    // Loading State
+    if (loading) return <div className="spinner">Loading gigs...</div>;
+
+    // Error State
+    if (error) return <p className="error">{error}</p>;
+
+    // Empty Gigs State
+    if (gigs.length === 0) return <p>No gigs found. Add one to get started!</p>;
 
     return (
         <div className="manage-gigs">
@@ -34,20 +96,26 @@ const ManageGigs = () => {
                     Add Gig
                 </button>
             </div>
-            <ul>
+            <div className="gig-list">
                 {gigs.map((gig) => (
-                    <li key={gig.id} className="gig-item">
+                    <div key={gig._id} className="gig-card">
                         <div className="gig-details">
                             <h4>{gig.title}</h4>
                             <p>{gig.description}</p>
+                            <p>Experience: {gig.experience} years</p>
+                            <p>Price: ${gig.price}</p>
+                            <p>Availability Hours: {gig.availabilityHours}</p>
+                            <p>Location: {gig.location}</p>
+                            <p>Category: {gig.category}</p>
+                            <p>Status: {gig.status}</p>
                         </div>
                         <div className="gig-actions">
-                            <button onClick={() => handleUpdate(gig.id)}>Update</button>
-                            <button onClick={() => handleDelete(gig.id)}>Delete</button>
+                            <button onClick={() => handleUpdate(gig)}>Update</button>
+                            <button onClick={() => handleDelete(gig._id)}>Delete</button>
                         </div>
-                    </li>
+                    </div>
                 ))}
-            </ul>
+            </div>
         </div>
     );
 };

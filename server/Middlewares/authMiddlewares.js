@@ -16,7 +16,7 @@ export const authenticateServiceProvider = async (req, res, next) => {
             });
         }
         
-        console.log("i am in service provider authentication Token",token)
+        // console.log("i am in service provider authentication Token",token)
 
         const decoded = jwt.verify(token, process.env.JWT_SECRET);
         req.user = decoded;

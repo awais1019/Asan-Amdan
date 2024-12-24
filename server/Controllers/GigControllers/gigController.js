@@ -108,7 +108,8 @@ export const getGigByIdController = async (req, res) => {
 export const getGigForServiceProviderController = async (req, res) => {
   try {
     const { serviceProviderId } = req.params;
-
+    
+    console.log("getting gigs for service provider controller id",serviceProviderId);
     if (!serviceProviderId) {
       return res.status(400).json({
         success: false,
@@ -191,33 +192,14 @@ export const deleteGigController = async (req, res) => {
 
 export const updateGigController = async (req, res) => {
   try {
-    const { gigId } = req.params;
-    const {
-      title,
-      description,
-      experience,
-      price,
-      availabilityHours,
-      location,
-      image,
-      video,
-      document,
-      category,
-    } = req.body;
+    const { gigId } = req.params; 
+    const { title, description, experience, price, availabilityHours, image, category } = req.body;
 
-    if (
-      !gigId ||
-      !title ||
-      !description ||
-      !experience ||
-      !price ||
-      !availabilityHours ||
-      !image ||
-      !category
-    ) {
-      return res
-        .status(400)
-        .json({ success: false, msg: "All fields are required" });
+    console.log("this is when updating gig",req.body,"and it is gig id",gigId)
+
+
+    if(!gigId || !title || !description || !experience || !price || !availabilityHours) {
+        return res.status(400).json({success:false,msg:"All fields are required"});
     }
 
     const updatedData = {
@@ -226,18 +208,17 @@ export const updateGigController = async (req, res) => {
       experience,
       price,
       availabilityHours,
-      location: location !== undefined ? location : null,
-      image,
-      video: video !== undefined ? video : null,
-      document: document !== undefined ? document : null,
-      category,
+      // location: location !== undefined ? location : null,
+      // video: video !== undefined ? video : null,
+      // document: document !== undefined ? document : null, 
+      // category,
     };
 
-    for (let key in updatedData) {
-      if (updatedData[key] === undefined) {
-        delete updatedData[key];
-      }
-    }
+    // for (let key in updatedData) {
+    //   if (updatedData[key] === undefined) {
+    //     delete updatedData[key];
+    //   }
+    // }
 
     // Find the gig by its ID and update it
     const updatedGig = await Gig.findByIdAndUpdate(gigId, updatedData, {
