@@ -41,7 +41,7 @@ const corsConfig={
 // Authentication routes
 app.use("/api/v1/auth",authRoutes);
 app.use("/api/v1/auth",serviceProviderRoutes);
-app.use("/api/v1/gig",gigRoutes)
+app.use("/api/v1/gig",gigRoutes);
 app.use("/api/v1/categories",categoriesRoutes);
 
 
@@ -53,4 +53,4 @@ app.get('/',(req,res)=>{
 })
 app.listen(port,()=>{
     console.log(`Server is running on port http://localhost:${port}`);
-})
+}) 

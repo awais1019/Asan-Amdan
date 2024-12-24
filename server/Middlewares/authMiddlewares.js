@@ -6,6 +6,7 @@ import User from "../Models/userModels.js";
 // for service provider
 export const authenticateServiceProvider = async (req, res, next) => {
 
+    
     try {
         const token = req.headers.authorization;
         if (!token) {
@@ -14,6 +15,8 @@ export const authenticateServiceProvider = async (req, res, next) => {
                 msg: "No Token Provided"
             });
         }
+        
+        console.log("i am in service provider authentication Token",token)
 
         const decoded = jwt.verify(token, process.env.JWT_SECRET);
         req.user = decoded;
@@ -29,6 +32,7 @@ export const authenticateServiceProvider = async (req, res, next) => {
 
 
     } catch (error) {
+        console.log("it is error when authenticating servie provider",error);
         if (error.name === 'TokenExpiredError') {
             return res.status(401).json({
                 success: false,
