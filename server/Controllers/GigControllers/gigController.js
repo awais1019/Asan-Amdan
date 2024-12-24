@@ -192,9 +192,9 @@ export const deleteGigController = async (req, res) => {
 export const updateGigController = async (req, res) => {
   try {
     const { gigId } = req.params; 
-    const { title, description, experience, price, availabilityHours, location, image, video, document, category } = req.body;
+    const { title, description, experience, price, availabilityHours, image, category } = req.body;
 
-    if(!gigId || !title || !description || !experience || !price || !availabilityHours ||  !image || !category) {
+    if(!gigId || !title || !description || !experience || !price || !availabilityHours ||  !image) {
         return res.status(400).json({success:false,msg:"All fields are required"});
     }
 
@@ -204,18 +204,18 @@ export const updateGigController = async (req, res) => {
       experience,
       price,
       availabilityHours,
-      location: location !== undefined ? location : null,
+      // location: location !== undefined ? location : null,
       image,
-      video: video !== undefined ? video : null,
-      document: document !== undefined ? document : null, 
-      category,
+      // video: video !== undefined ? video : null,
+      // document: document !== undefined ? document : null, 
+      // category,
     };
 
-    for (let key in updatedData) {
-      if (updatedData[key] === undefined) {
-        delete updatedData[key];
-      }
-    }
+    // for (let key in updatedData) {
+    //   if (updatedData[key] === undefined) {
+    //     delete updatedData[key];
+    //   }
+    // }
 
     // Find the gig by its ID and update it
     const updatedGig = await Gig.findByIdAndUpdate(gigId, updatedData, { new: true }); 
