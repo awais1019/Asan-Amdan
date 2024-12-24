@@ -1,0 +1,78 @@
+/* Styling the container */
+.manage-gigs {
+    padding: 25px;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.add-gig-button {
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.add-gig-button:hover {
+    background-color: #0056b3;
+}
+
+/* Styling the grid layout */
+.gig-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); /* Responsive grid */
+}
+
+/* Styling for individual cards */
+.gig-card {
+    background-color: white;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.gig-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* Styling gig details */
+.gig-details h4 {
+    margin: 0 0 10px 0;
+    font-size: 18px;
+}
+
+.gig-details p {
+    margin: 5px 0;
+    color: #555;
+}
+
+/* Styling buttons */
+.gig-actions {
+    margin-top: 15px;
+    display: flex;
+    justify-content: flex-start;
+    gap: 10px;
+}
+
+.gig-actions button {
+    padding: 8px 16px;
+    font-size: 14px;
+    color: white;
+    background-color: #d64c5c;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.gig-actions button:hover {
+    background-color: #b3007d;
+}

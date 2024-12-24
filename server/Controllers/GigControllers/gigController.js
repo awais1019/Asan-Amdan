@@ -108,7 +108,8 @@ export const getGigByIdController = async (req, res) => {
 export const getGigForServiceProviderController = async (req, res) => {
   try {
     const { serviceProviderId } = req.params;
-
+    
+    console.log("getting gigs for service provider controller id",serviceProviderId);
     if (!serviceProviderId) {
       return res.status(400).json({
         success: false,
@@ -193,6 +194,8 @@ export const updateGigController = async (req, res) => {
   try {
     const { gigId } = req.params; 
     const { title, description, experience, price, availabilityHours, location, image, video, document, category } = req.body;
+
+    console.log("this is when updating gig",req.body,"and it is gig id",gigId)
 
     if(!gigId || !title || !description || !experience || !price || !availabilityHours ||  !image || !category) {
         return res.status(400).json({success:false,msg:"All fields are required"});
