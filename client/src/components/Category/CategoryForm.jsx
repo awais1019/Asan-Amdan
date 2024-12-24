@@ -1,157 +1,89 @@
-import React, { useState, useEffect } from "react";
-import axios from "axios";
-import "../styles/Category/CategoryForm.css";
+import React, { useState, useEffect } from 'react';  // Import your existing fetchCategories function
+import "../styles/Search/CategorySearchBar.css";
 import fetchCategories from "../Fetch/FetchCategories";
 
-const Header = () => {
-  const [name, setName] = useState("");
-  const [type, setType] = useState("technical");
-  const [categories, setCategories] = useState([]);
-  const [editingCategory, setEditingCategory] = useState(null);
+const CategorySearchBar = () => {
+    const [categories, setCategories] = useState({ technical: [], nonTechnical: [] });
+    const [selectedCategory, setSelectedCategory] = useState('');
+    const [isTechnical, setIsTechnical] = useState(true); // Default to technical
 
-  // Fetch all categories on component load
-  useEffect(() => {
-    const getCategories = async () => {
-      const fetchedCategories = await fetchCategories();
-      setCategories(fetchedCategories); // Set the fetched categories to state
-    };
-    getCategories();
-  }, []);
+    // Fetch categories from the backend API
+    useEffect(() => {
+        const getCategories = async () => {
+            const fetchedCategories = await fetchCategories();  // Call the external fetchCategories function
+            if (fetchedCategories.length > 0) {
+                // Separate categories into technical and non-technical
+                const technical = fetchedCategories.filter(category => category.isTechnical === true);
+                const nonTechnical = fetchedCategories.filter(category => category.isTechnical === false);
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    if (name.trim()) {
-      try {
-        const token = localStorage.getItem("authToken");
-        const newCategory = { name, isTechnical: type === "technical" };
-        const response = await axios.post(
-          "http://localhost:4000/api/v1/categories/addCategory",
-          newCategory,
-          {
-            headers: {
-              Authorization: token,
-            },
-          }
-        );
-        setCategories([...categories, response.data.category]);
-        setName(""); // Reset form
-      } catch (error) {
-        console.error("Error adding category:", error.response?.data?.msg || error.message);
-      }
-    }
-  };
+                setCategories({ technical, nonTechnical });
+            } else {
+                // Fallback to mock data if no categories fetched
+                setCategories({
+                    technical: [
+                        { _id: '1', name: 'Web Development' },
+                        { _id: '2', name: 'Network Engineering' },
+                        { _id: '3', name: 'Software Development' },
+                    ],
+                    nonTechnical: [
+                        { _id: '4', name: 'Plumbing' },
+                        { _id: '5', name: 'Electrical Services' },
+                        { _id: '6', name: 'Carpentry' },
+                    ],
+                });
+            }
+        };
 
-  const deleteCategory = async (id) => {
-    try {
-      const token = localStorage.getItem("authToken");
-      await axios.delete(`http://localhost:4000/api/v1/categories/deleteCategory/${id}`, {
-        headers: { Authorization: token },
-      });
-      setCategories(categories.filter((category) => category._id !== id));
-    } catch (error) {
-      console.error("Error deleting category:", error.response?.data?.msg || error.message);
-    }
-  };
+        getCategories();  // Call the function to fetch categories
+    }, []); // Empty dependency array means this runs once on mount
 
-  const saveUpdatedCategory = async () => {
-    if (!editingCategory) return;
+    // Handle category selection
+    const handleCategoryChange = (categoryId) => {
+        setSelectedCategory(categoryId);
 
-    try {
-      const token = localStorage.getItem("authToken");
-      const response = await axios.put(
-        `http://localhost:4000/api/v1/categories/updateCategory/${editingCategory._id}`,
-        editingCategory,
-        {
-          headers: { Authorization: token },
+        if (categoryId) {
+            window.location.href = `/search?category=${categoryId}`;
         }
-      );
-      setCategories(
-        categories?.map((category) =>
-          category._id === editingCategory._id ? response.data.category : category
-        )
-      );
-      setEditingCategory(null); // Exit edit mode
-    } catch (error) {
-      console.error("Error updating category:", error.response?.data?.msg || error.message);
-    }
-  };
+    };
 
-  return (
-    <header className="header">
-      <h1>Category Management</h1>
-      <form className="category-form" onSubmit={handleSubmit}>
-        <input
-          type="text"
-          placeholder="Enter category name"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-        />
-        <div className="radio-group">
-          <label>
-            <input
-              type="radio"
-              name="type"
-              value="technical"
-              checked={type === "technical"}
-              onChange={(e) => setType(e.target.value)}
-            />
-            Technical
-          </label>
-          <label>
-            <input
-              type="radio"
-              name="type"
-              value="non-technical"
-              checked={type === "non-technical"}
-              onChange={(e) => setType(e.target.value)}
-            />
-            Non-Technical
-          </label>
+    // Toggle between technical and non-technical categories
+    const toggleCategoryType = () => {
+        setIsTechnical((prev) => !prev);
+        setSelectedCategory(''); // Reset category selection on toggle
+    };
+
+    // Get the categories based on the toggle state
+    const filteredCategories = isTechnical ? categories.technical : categories.nonTechnical;
+
+    return (
+        <div className="category-search-container">
+            <div className="category-toggle-container">
+                <label className="toggle-switch">
+                    <input
+                        type="checkbox"
+                        checked={isTechnical}
+                        onChange={toggleCategoryType}
+                    />
+                    <span className="toggle-slider"></span>
+                </label>
+                <span className="toggle-label">
+                    {isTechnical ? 'Technical' : 'Non-Technical'}
+                </span>
+            </div>
+
+            <div className="category-list-container">
+                {filteredCategories.map((category) => (
+                    <div
+                        key={category._id}
+                        className={`category-item ${selectedCategory === category._id ? 'selected' : ''}`}
+                        onClick={() => handleCategoryChange(category._id)}
+                    >
+                        {category.name}
+                    </div>
+                ))}
+            </div>
         </div>
-        <button type="submit">Add Category</button>
-      </form>
-      <div className="category-list">
-        <h2>Existing Categories</h2>
-        <ul>
-          {categories.map((category) => (
-            <li key={category._id}>
-              {editingCategory && editingCategory._id === category._id ? (
-                <>
-                  <input
-                    type="text"
-                    value={editingCategory.name}
-                    onChange={(e) =>
-                      setEditingCategory({ ...editingCategory, name: e.target.value })
-                    }
-                  />
-                  <select
-                    value={editingCategory.isTechnical ? "technical" : "non-technical"}
-                    onChange={(e) =>
-                      setEditingCategory({
-                        ...editingCategory,
-                        isTechnical: e.target.value === "technical",
-                      })
-                    }
-                  >
-                    <option value="technical">Technical</option>
-                    <option value="non-technical">Non-Technical</option>
-                  </select>
-                  <button onClick={saveUpdatedCategory}>Save</button>
-                  <button onClick={() => setEditingCategory(null)}>Cancel</button>
-                </>
-              ) : (
-                <>
-                  {category.name} ({category.isTechnical ? "Technical" : "Non-Technical"})
-                  <button onClick={() => deleteCategory(category._id)}>Delete</button>
-                  <button onClick={() => setEditingCategory(category)}>Update</button>
-                </>
-              )}
-            </li>
-          ))}
-        </ul>
-      </div>
-    </header>
-  );
+    );
 };
 
-export default Header;
+export default CategorySearchBar;
