@@ -90,3 +90,17 @@ export const getNonTechCategoriesController = async (req, res) => {
         res.status(500).json({ success:false ,msg: "Server error.", error: error.message });
     }
 };
+export const getCategoriesByTypeController = async (req, res) => {
+    console.log("Request received with query:", req.query); // Log query parameters
+    try {
+      const { isTechnical } = req.query;
+      const categories = await Categories.find({ isTechnical: isTechnical === "true" });
+      console.log("Categories fetched:", categories); // Log fetched data
+      res.status(200).json({ categories });
+    } catch (err) {
+      console.error("Error fetching categories:", err); // Log errors
+      res.status(500).json({ message: "Failed to fetch categories." });
+    }
+  };
+  
+  

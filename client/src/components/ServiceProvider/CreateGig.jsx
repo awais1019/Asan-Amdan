@@ -4,35 +4,46 @@ import "../styles/CreateGig/MakeGig.css";
 import { useServiceProviderAuth } from "../../Contexts/serviceProviderContexts";
 
 const CreateGig = () => {
-  const { serviceProviderAuth, setServiceProviderAuth } = useServiceProviderAuth();
+  const { serviceProviderAuth } = useServiceProviderAuth();
 
+  const [categories, setCategories] = useState([]);
   const [gigData, setGigData] = useState({
     title: "",
     description: "",
-    experience: "",
     price: "",
+    experience: "",
     availabilityHours: "",
-    location: "",
-    category: "",  // Default to an empty string for category
+    categoryId: "",
     isTechnical: false,
     image: null,
   });
 
-  useEffect(() => {
-    console.log("Service provider auth:", serviceProviderAuth.user, serviceProviderAuth.token);
-  }, [serviceProviderAuth]);
-
+  const [startTime, setStartTime] = useState("");
+  const [endTime, setEndTime] = useState("");
   const [imagePreview, setImagePreview] = useState(null);
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
 
-  const categories = [
-    "Web Development", 
-    "Graphic Design", 
-    "Content Writing", 
-    "Photography", 
-    "Digital Marketing"
-  ];
+  useEffect(() => {
+    const fetchCategories = async () => {
+      try {
+        const response = await axios.get(
+          "http://localhost:4000/api/v1/categories/getCategoriesByType",
+          {
+            params: { isTechnical: gigData.isTechnical },
+            headers: {
+              Authorization: `${serviceProviderAuth.token}`,
+            },
+          }
+        );
+        setCategories(response.data.categories || []);
+      } catch (err) {
+        setError("Failed to load categories. Please try again.");
+      }
+    };
+
+    fetchCategories();
+  }, [gigData.isTechnical, serviceProviderAuth.token]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -42,10 +53,25 @@ const CreateGig = () => {
     });
   };
 
+  const handleTimeChange = () => {
+    // Format the availabilityHours when startTime or endTime changes
+    if (startTime && endTime) {
+      setGigData({
+        ...gigData,
+        availabilityHours: `${startTime} - ${endTime}`,
+      });
+    }
+  };
+
+  useEffect(() => {
+    handleTimeChange();
+  }, [startTime, endTime]);
+
   const handleCheckboxChange = (e) => {
     setGigData({
       ...gigData,
       isTechnical: e.target.checked,
+      categoryId: "", // Reset selected category
     });
   };
 
@@ -61,8 +87,6 @@ const CreateGig = () => {
     e.preventDefault();
   
     try {
-      console.log("Uploading image to Cloudinary...");
-  
       const formDataToUpload = new FormData();
       formDataToUpload.append("file", gigData.image);
       formDataToUpload.append("upload_preset", "sp-cnic");
@@ -70,17 +94,11 @@ const CreateGig = () => {
       // Upload the image to Cloudinary
       const uploadResponse = await axios.post(
         "https://api.cloudinary.com/v1_1/dfw3oi6am/image/upload",
-        formDataToUpload,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        }
+        formDataToUpload
       );
   
       const imageUrl = uploadResponse?.data?.secure_url;
-      console.log("Image URL:", imageUrl);
-  
+
       if (!imageUrl) {
         setError("Image upload failed. Please try again.");
         return;
@@ -88,39 +106,42 @@ const CreateGig = () => {
   
       // Prepare data to send to the server (with service provider's ID and token)
       const dataToSend = {
-        ...gigData,
+        title: gigData.title,
+        description: gigData.description,
+        price: gigData.price,
+        experience: gigData.experience,
+        availabilityHours: gigData.availabilityHours,
+        categoryId: gigData.categoryId,
+        serviceProviderId: serviceProviderAuth.user._id,
+        isTechnical: gigData.isTechnical,
         image: imageUrl,
       };
-  
-      // Assuming serviceProviderAuth contains the token and ID
-      const { user, token } = serviceProviderAuth;
-  
-      // Make POST request to the backend to create the gig
+
       const response = await axios.post(
-        `http://localhost:4000/api/v1/gig/createGig/${user.id}`,  // Using user.id as serviceProviderId
+        `http://localhost:4000/api/v1/gig/createGig/${dataToSend.serviceProviderId}`,
         dataToSend,
         {
           headers: {
+            Authorization: `${serviceProviderAuth.token}`,
             "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,  // Sending the token for authentication
           },
         }
       );
-  
+
       setSuccess("Gig created successfully!");
       setError("");
       setGigData({
         title: "",
         description: "",
-        experience: "",
         price: "",
         availabilityHours: "",
-        location: "",
-        category: "",  // Reset category to empty string after submit
+        categoryId: "",
         isTechnical: false,
         image: null,
       });
       setImagePreview(null);
+      setStartTime("");
+      setEndTime("");
     } catch (err) {
       setError(err.response?.data?.message || "Failed to create gig. Please try again.");
       setSuccess("");
@@ -138,79 +159,93 @@ const CreateGig = () => {
         <input
           type="text"
           name="title"
-          placeholder="Title"
+          placeholder="Gig Title"
           value={gigData.title}
           onChange={handleChange}
           required
         />
 
+        <input
+          type="number"
+          name="experience"
+          placeholder="Experience"
+          value={gigData.experience}
+          onChange={handleChange}
+          required
+          min="0"
+          step="1"
+          max="50"
+        />
+
         <textarea
           name="description"
-          placeholder="Description"
+          placeholder="Gig Description"
           value={gigData.description}
           onChange={handleChange}
           rows="5"
           required
         ></textarea>
 
-        <input
-          type="number"
-          name="experience"
-          placeholder="Experience (in years)"
-          value={gigData.experience}
-          onChange={handleChange}
-          required
-        />
+        <div className="form-row">
+          <input
+            type="number"
+            name="price"
+            placeholder="Price ($)"
+            value={gigData.price}
+            onChange={handleChange}
+            required
+          />
 
-        <input
-          type="number"
-          name="price"
-          placeholder="Price (in $)"
-          value={gigData.price}
-          onChange={handleChange}
-          required
-        />
+          <label>Start Time:</label>
+          <input
+            type="time"
+            name="startTime"
+            value={startTime}
+            onChange={(e) => setStartTime(e.target.value)}
+            required
+          />
 
-        <input
-          type="text"
-          name="availabilityHours"
-          placeholder="Availability Hours (e.g., 09:00 - 17:00)"
-          value={gigData.availabilityHours}
-          onChange={handleChange}
-          required
-        />
+          <label>End Time:</label>
+          <input
+            type="time"
+            name="endTime"
+            value={endTime}
+            onChange={(e) => setEndTime(e.target.value)}
+            required
+          />
 
-        <input
-          type="text"
-          name="location"
-          placeholder="Location"
-          value={gigData.location}
-          onChange={handleChange}
-        />
+          <input
+            type="text"
+            name="availabilityHours"
+            placeholder="Availability Hours"
+            value={gigData.availabilityHours}
+            readOnly
+          />
+        </div>
 
-        <select name="category" value={gigData.category} onChange={handleChange} required>
-          <option value="">Select a Category</option>
-          {Array.isArray(categories) && categories.length > 0 ? (
-            categories.map((category, index) => (
-              <option key={index} value={category}>
-                {category}
-              </option>
-            ))
-          ) : (
-            <option value="">No categories available</option>
-          )}
-        </select>
-
-        <div className="checkbox-container">
+        <div className="form-row">
           <label>
+            Is this a Technical Gig?
             <input
               type="checkbox"
               name="isTechnical"
               checked={gigData.isTechnical}
               onChange={handleCheckboxChange}
             />
-            Is Technical?
           </label>
+          <select
+            name="categoryId"
+            value={gigData.categoryId}
+            onChange={handleChange}
+            required
+          >
+            <option value="">Select a Category</option>
+            {categories.map((category) => (
+              <option key={category._id} value={category._id}>
+                {category.name}
+              </option>
+            ))}
+          </select>
         </div>
 
         <div className="image-upload">
@@ -219,7 +254,9 @@ const CreateGig = () => {
           {imagePreview && <img src={imagePreview} alt="Preview" className="image-preview" />}
         </div>
 
-        <button type="submit">Create Gig</button>
+        <button type="submit" className="submit-btn">
+          Create Gig
+        </button>
       </form>
     </div>
   );

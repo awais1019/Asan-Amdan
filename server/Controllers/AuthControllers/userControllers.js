@@ -7,6 +7,9 @@ export const registerController = async (req, res) => {
     try {
         const { email, password, firstName, lastName, userName, phoneNumber, location } = req.body;
 
+        console.log("it is username",userName);
+        console.log("it is req.body",req.body);
+
         if (!email || !password || !firstName || !lastName || !userName || !phoneNumber) {
             return res.status(400).json({ success: false, msg: "All Fields Are Required" });
         }

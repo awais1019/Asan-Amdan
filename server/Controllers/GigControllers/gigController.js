@@ -18,6 +18,10 @@ export const createGigController = async (req, res) => {
     } = req.body;
     const { serviceProviderId } = req.params;
 
+    console.log("it is req.body",req.body);
+    console.log("it is sp id",serviceProviderId)
+    
+
     if (
       !title ||
       !description ||
@@ -29,6 +33,7 @@ export const createGigController = async (req, res) => {
       !serviceProviderId ||
       !isTechnical
     ) {
+      console.log("something not found");
       return res.status(400).json({ success: false, msg: "All fields are required" });
     }
 
