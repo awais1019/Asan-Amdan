@@ -10,10 +10,11 @@ export const createGigController = async (req, res) => {
       price,
       availabilityHours,
       location,
-      image, // This should be a base64 string or image URL
-      video, 
-      document, 
-      category 
+      image, 
+      // video, 
+      // document, 
+      categoryId,
+      isTechnical
     } = req.body;
     const { serviceProviderId } = req.params;
 
@@ -24,31 +25,13 @@ export const createGigController = async (req, res) => {
       !price ||
       !availabilityHours ||
       !image ||
-      !category ||
-      !serviceProviderId
+      !categoryId ||
+      !serviceProviderId ||
+      !isTechnical
     ) {
       return res.status(400).json({ success: false, msg: "All fields are required" });
     }
 
-    // Upload the image to Cloudinary
-    let uploadedImage;
-    if (image) {
-      try {
-        const result = await cloudinary.uploader.upload(image, {
-          folder: "gigs/images", // Specify folder in Cloudinary
-        });
-        uploadedImage = {
-          public_id: result.public_id,
-          url: result.secure_url,
-        };
-      } catch (uploadError) {
-        console.error("Image upload failed:", uploadError);
-        return res.status(500).json({
-          success: false,
-          msg: "Image upload failed",
-        });
-      }
-    }
 
     // Create a new Gig document
     const newGig = new Gig({
@@ -58,11 +41,12 @@ export const createGigController = async (req, res) => {
       price,
       availabilityHours,
       location,
-      image: uploadedImage, // Store the Cloudinary image data
-      video,
-      document,
-      category,
+      image,
+      // video,
+      // document,
+      categoryId,
       serviceProviderId,
+      isTechnical
     });
 
     // Save the new Gig to the database
@@ -112,6 +96,39 @@ export const getGigByIdController = async (req, res) => {
     res.status(500).json({
       success: false,
       msg: "Server error. Could not retrieve gig.",
+    });
+  }
+};
+
+export const getGigForServiceProviderController = async (req, res) => {
+  try {
+    const { serviceProviderId } = req.params;
+
+    if (!serviceProviderId) {
+      return res.status(400).json({
+        success: false,
+        msg: "Service Provider ID is required",
+      });
+    }
+
+    const gigs = await Gig.find({ serviceProviderId: serviceProviderId });
+
+    if (!gigs || gigs.length === 0) {
+      return res.status(404).json({
+        success: false,
+        msg: "No gigs found for this service provider",
+      });
+    }
+
+    res.status(200).json({
+      success: true,
+      gigs,
+    });
+  } catch (error) {
+    console.error("Error while getting gigs for service provider:", error);
+    res.status(500).json({
+      success: false,
+      msg: "Server error. Could not retrieve gigs.",
     });
   }
 };

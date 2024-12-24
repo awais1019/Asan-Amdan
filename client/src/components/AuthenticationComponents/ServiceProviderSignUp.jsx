@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
+import {useServiceProviderAuth } from "../../Contexts/serviceProviderContexts";
 
 const ServiceProviderForm = () => {
   const [formData, setFormData] = useState({
@@ -14,6 +15,7 @@ const ServiceProviderForm = () => {
     ordersCompleted: 0, // Field for ordersCompleted
     overallEarnings: 0, // Field for overallEarnings
   });
+  const {serviceProviderAuth,setServiceProviderAuth}=useServiceProviderAuth();
 
   const [errors, setErrors] = useState({});
   const [successMessage, setSuccessMessage] = useState("");
@@ -120,9 +122,11 @@ const ServiceProviderForm = () => {
         }
       );
       console.log("Registration successful:", response.data);
+      console.log("this is the token",response.data.token);
       localStorage.setItem("Token", response.data.token);
+      setServiceProviderAuth(response.data.data);
 
-      setSuccessMessage(response.data.message);
+      setSuccessMessage(response.data.msg);
       setErrors({}); // Clear errors on success
       setFormData({
         email: "",

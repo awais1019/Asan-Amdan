@@ -40,14 +40,14 @@ const gigSchema = mongoose.Schema(
             type: String,
             required: true,
         },
-        video: {
-            type: String,
-            default: null,
-        },
-        document: {
-            type: String,
-            default: null,
-        },
+        // video: {
+        //     type: String,
+        //     default: null,
+        // },
+        // document: {
+        //     type: String,
+        //     default: null,
+        // },
         categoryId: {
             type: mongoose.Schema.Types.ObjectId,
             ref: "Categories",

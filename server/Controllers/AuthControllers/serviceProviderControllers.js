@@ -43,9 +43,9 @@ export const serviceProviderRegisterController = async (req, res) => {
 
         await newServiceProvider.save();
 
-        const token = generateToken(newServiceProvider._id);
+        const token = generateToken(newServiceProvider._id,newServiceProvider.email,newServiceProvider.username);
 
-        const dataToSend = {
+        const data = {
             _id: newServiceProvider._id,
             email: newServiceProvider.email,
             firstName: newServiceProvider.firstName,
@@ -54,7 +54,7 @@ export const serviceProviderRegisterController = async (req, res) => {
         };
 
 
-        res.status(201).json({ success: true, msg: "Service provider registered successfully!",token,dataToSend });
+        res.status(201).json({ success: true, msg: "Service provider registered successfully!",token,data });
     } catch (error) {
         console.error("Error in registering service provider:", error);
         res.status(500).json({ success: false, msg: "Server error" });
